@@ -1,0 +1,10 @@
+.env
+.envrc
+.env.*
+.envrc.*
+!.env.example
+!.envrc.example
+.terraform
+*.tfstate
+*.backup
+.auto.tfvars
