@@ -3,7 +3,7 @@ resource "proxmox_vm_qemu" "talos-control-plane" {
 
   name        = each.value.hostname
   target_node = var.pve_node
-  clone       = "talos-node"
+  clone       = var.talos_template_name
 
   memory  = 2048
   sockets = 2
@@ -29,7 +29,7 @@ resource "proxmox_vm_qemu" "talos-worker" {
 
   name        = each.value.hostname
   target_node = var.pve_node
-  clone       = "talos-node"
+  clone       = var.talos_template_name
 
   memory  = 14848
   sockets = 2
