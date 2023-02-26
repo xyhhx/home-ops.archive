@@ -1,5 +1,5 @@
 resource "proxmox_vm_qemu" "talos-control-plane" {
-  count = 2
+  count = var.control_plane_nodes_count
 
   name        = "talos-cp-${count.index + 1}"
   target_node = var.pve_node
@@ -25,7 +25,7 @@ resource "proxmox_vm_qemu" "talos-control-plane" {
 }
 
 resource "proxmox_vm_qemu" "talos-worker" {
-  count = 2
+  count = var.worker_nodes_count
 
   name        = "talos-wk-${count.index + 1}"
   target_node = var.pve_node
