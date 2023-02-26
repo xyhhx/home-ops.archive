@@ -33,3 +33,12 @@ variable "worker_nodes_count" {
   description = "The amount of worker nodes to provision"
 }
 
+variable "control_plane_total_mem" {
+  type = number
+  description = "How many MB to distribute among the control plane nodes"
+}
+
+variable "workers_total_mem" {
+  type = number
+  description = "How many MB to distribute among the worker nodes"
+}

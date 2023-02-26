@@ -5,7 +5,7 @@ resource "proxmox_vm_qemu" "talos-control-plane" {
   target_node = var.pve_node
   clone       = var.talos_template_name
 
-  memory  = 2048
+  memory  = var.control_plane_total_mem / var.control_plane_nodes_count
   sockets = 2
   cores   = 2
   scsihw  = "virtio-scsi-single"
@@ -31,7 +31,7 @@ resource "proxmox_vm_qemu" "talos-worker" {
   target_node = var.pve_node
   clone       = var.talos_template_name
 
-  memory  = 14848
+  memory  = var.workers_total_mem / var.worker_nodes_count
   sockets = 2
   cores   = 2
   scsihw  = "virtio-scsi-single"
