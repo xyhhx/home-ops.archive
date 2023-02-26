@@ -5,3 +5,5 @@ export PM_API_URL=
 export OPNSENSE_URL=
 export OPNSENSE_USER=
 export OPNSENSE_PASS=
+
+export TALOS_CLUSTER_NAME=
