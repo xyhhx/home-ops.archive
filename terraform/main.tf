@@ -1,7 +1,7 @@
 resource "proxmox_vm_qemu" "talos-control-plane" {
-  for_each = var.talos_control_plane
+  count = 2
 
-  name        = each.value.hostname
+  name        = "talos-cp-${count.index + 1}"
   target_node = var.pve_node
   clone       = var.talos_template_name
 
@@ -25,9 +25,9 @@ resource "proxmox_vm_qemu" "talos-control-plane" {
 }
 
 resource "proxmox_vm_qemu" "talos-worker" {
-  for_each = var.talos_workers
+  count = 2
 
-  name        = each.value.hostname
+  name        = "talos-wk-${count.index + 1}"
   target_node = var.pve_node
   clone       = var.talos_template_name
 
