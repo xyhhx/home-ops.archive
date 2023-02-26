@@ -8,3 +8,5 @@
 *.tfstate
 *.backup
 .auto.tfvars
+.talosconf
+kubeconfig
