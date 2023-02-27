@@ -3,6 +3,7 @@ import json
 import subprocess
 from dotenv import load_dotenv
 from os import getenv
+from pathlib import Path
 from time import sleep
 
 out_dir = ".talosconf"
@@ -25,9 +26,19 @@ def get_leases():
 
 
 def gen_talos_conf(ipaddr):
+    talsoconfig = Path("%s/talosconfig" % out_dir)
+
+    if talsoconfig.is_file():
+        print('%a/talosconfig exists, not generating a new one' % out_dir)
+        return
+
     command = 'talosctl gen config %s https://%s:6443 --output %s' % (
         getenv('TALOS_CLUSTER_NAME'), ipaddr, out_dir)
-    return run_command(command)
+    run_command(command)
+
+
+def patch_manifs():
+    confs = Path('%s/controlplane.yaml')
 
 
 def apply_config(ipaddr, conf_file):
@@ -57,33 +68,38 @@ def retry_command(command, max_tries=3, wait=30):
 def main():
     load_dotenv()
 
-    parser = argparse.ArgumentParser(prog="Talos helper script")
-    parser.add_argument("--config", action=argparse.BooleanOptionalAction)
-    parser.add_argument("--bootstrap", action=argparse.BooleanOptionalAction)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('action')
     args = parser.parse_args()
 
     config_generated = False
     data = get_leases()
 
-    if args.config is not False:
-        for ipaddr in data['control_plane']:
-            if config_generated == False:
-                gen_talos_conf(ipaddr)
-                config_generated = True
-            apply_config(ipaddr, 'controlplane')
+    if args.action == 'gen':
+        if config_generated == False:
+            gen_talos_conf(data['control_plane'][0])
+            config_generated = True
+            run_command('talosctl config endpoint %s' %
+                        ' '.join([ip for ip in data['control_plane']]))
+            run_command('talosctl config node %s' %
+                        ' '.join([ip for ip in data['control_plane']]))
+            print('Your configs have been generated, and are available in %s/' % out_dir)
+            exit()
 
-        for ipaddr in data['workers']:
-            apply_config(ipaddr, 'worker')
-        print("Configs set. You may want to wait a few moments before continuing.")
+    if args.action == 'apply':
+        for ip in data['control_plane']:
+            apply_config(ip, 'controlplane')
 
-    if args.bootstrap is not False:
+        for ip in data['workers']:
+            apply_config(ip, 'worker')
+
+        print("Configs applied. You may want to wait a few moments before continuing.")
+        exit()
+
+    if args.action == 'bootstrap':
         commands = [
-            'talosctl --talosconfig %s/talosconfig config endpoint %s' %
-            (out_dir, data['control_plane'][0]),
-            'talosctl --talosconfig %s/talosconfig config node %s' %
-            (out_dir, data['control_plane'][0]),
-            'talosctl --talosconfig %s/talosconfig bootstrap' % out_dir,
-            'talosctl --talosconfig %s/talosconfig kubeconfig .' % out_dir,
+            'talosctl -n %s bootstrap' % (data['control_plane'][0]),
+            'talosctl -n %s kubeconfig .' % (data['control_plane'][0]),
         ]
 
         for command in commands:
@@ -94,8 +110,8 @@ def main():
                 except Exception:
                     print("The following command could not complete:\n%s" % command)
                     exit(1)
-
-        print("You may want to run the following:\nexport TALOSCONFIG=%s/talosconfig\nexport KUBECONFIG=kubeconfig" % (out_dir))
+        print("Configs applied. You may want to wait a few moments before continuing.")
+        exit()
 
 
 main()
