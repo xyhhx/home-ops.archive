@@ -79,10 +79,10 @@ def main():
         if config_generated == False:
             gen_talos_conf(data['control_plane'][0])
             config_generated = True
-            run_command('talosctl config endpoint %s' %
-                        ' '.join([ip for ip in data['control_plane']]))
-            run_command('talosctl config node %s' %
-                        ' '.join([ip for ip in data['control_plane']]))
+            run_command('talosctl --talosconfig %s/talosconfig config endpoint %s' %
+                        (out_dir, ' '.join([ip for ip in data['control_plane']])))
+            run_command('talosctl --talosconfig %s/talosconfig config node %s' %
+                        (out_dir, ' '.join([ip for ip in data['control_plane']])))
             print('Your configs have been generated, and are available in %s/' % out_dir)
             exit()
 

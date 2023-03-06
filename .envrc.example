@@ -7,3 +7,6 @@ export OPNSENSE_USER=
 export OPNSENSE_PASS=
 
 export TALOS_CLUSTER_NAME=
+
+export TALOSCONFIG=".talosconf/talosconfig"
+export KUBECONFIG="kubeconfig"
