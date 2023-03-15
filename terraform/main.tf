@@ -19,7 +19,7 @@ resource "proxmox_vm_qemu" "talos-control-plane" {
 
   disk {
     type    = "scsi"
-    size    = "32G"
+    size    = "12G"
     storage = var.storage
   }
 }
