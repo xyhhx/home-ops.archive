@@ -187,6 +187,9 @@ items:
                   name: web-claim0
                 - mountPath: /calckey/.config
                   name: web-claim1
+                  # readOnly: true
+                - mountPath: /calckey/.config/default.yml
+                  name: calckey-config
                   readOnly: true
           restartPolicy: Always
           volumes:
@@ -196,7 +199,10 @@ items:
             - name: web-claim1
               persistentVolumeClaim:
                 claimName: web-claim1
-                readOnly: true
+                # readOnly: true
+            - name: calckey-config
+              configMap:
+                name: calckey-configuration
     status: {}
   - apiVersion: v1
     kind: PersistentVolumeClaim
@@ -223,10 +229,18 @@ items:
     spec:
       storageClassName: openebs-jiva-csi-default
       accessModes:
-        - ReadWriteOnce
+        - ReadWriteMany
       resources:
         requests:
           storage: 100Mi
     status: {}
+  - apiVersion: v1
+    kind: ConfigMap
+    metadata:
+      name: calckey-configuration
+    data:
+      default.yml: |-
+        {{ .Files.Get ".config/default.yml"|nindent 4 }}
+        url: localhost
 kind: List
 metadata: {}
