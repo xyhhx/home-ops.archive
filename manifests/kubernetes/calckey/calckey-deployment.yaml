@@ -229,7 +229,7 @@ items:
     spec:
       storageClassName: openebs-jiva-csi-default
       accessModes:
-        - ReadWriteMany
+        - ReadWriteOnce
       resources:
         requests:
           storage: 100Mi
