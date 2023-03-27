@@ -4,7 +4,7 @@ metadata:
   labels:
     app.kubernetes.io/managed-by: pulumi
   name: openebs-jiva-csi-iscsiadm
-  namespace: kube-system
+  namespace: openebs
 data:
   iscsiadm: |
     #!/bin/sh
