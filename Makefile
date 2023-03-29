@@ -18,9 +18,6 @@ talos-apply:
 talos-bootstrap:
 	$(py) ./scripts/talos.py bootstrap
 
-setup-openebs:
-	
-
 down:
 	gum confirm "This will delete your infra and configurations. Are you sure?" && \
 	$(tf) destroy && \
