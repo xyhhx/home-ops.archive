@@ -21,10 +21,14 @@ touch terraform/.auto.tfvars
 make tf
 ```
 
-3. Once that's done, generate your talos configs. You will have to wait a few moments before this will work, since it takes a short bit for the nodes to receive their DHCP leases. You can apply their confs immediately.
+3. Generate talos configs
 
 ```
 make talos-gen
+# Copy the command that it outputs
+rm -rf .talosconf
+# paste the command
+make talos-gen # (again)
 make talos-apply
 ```
 
@@ -36,7 +40,13 @@ make talos-bootstrap
 
   - You can run `watch kubectl get nodes` to watch and see when your nodes are ready
 
-5. You will need to go through the motions to install/configure storage with OpenEBS:
+5. Install Cilium
+
+```
+helm install cilium cilium/cilium --version 1.11.2 --namespace kube-system --set ipam.mode=kubernetes --set kubeProxyReplacement=strict --set hostServices.enabled=true
+```
+
+6. You will need to go through the motions to install/configure storage with OpenEBS:
 
 ```
 ips=$(poetry run python ./scripts/talos.py ips --no-show-commands --type=control_plane |  tr '\n' ',' | sed 's/,$//')

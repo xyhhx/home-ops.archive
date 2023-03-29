@@ -47,7 +47,7 @@ def gen_talos_conf(ipaddr):
         print('%a/talosconfig exists, not generating a new one' % out_dir)
         return
 
-    command = 'talosctl gen config %s https://%s:6443 --output %s' % (
+    command = "talosctl gen config %s https://%s:6443 --config-patch '[{\"op\": \"add\", \"path\": \"/cluster/network/cni\", \"value\": {\"name\": \"none\"}}]' --output %s" % (
         getenv('TALOS_CLUSTER_NAME'), ipaddr, out_dir)
     run_command(command)
 
