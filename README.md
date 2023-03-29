@@ -49,6 +49,9 @@ helm install cilium cilium/cilium --version 1.11.2 --namespace kube-system --set
 6. You will need to go through the motions to install/configure storage with OpenEBS:
 
 ```
+kubectl apply -n metallb-system -f ./manifests/kubernetes/metallb/nice-pool.yaml
+kubectl apply -n metallb-system -f ./manifests/kubernetes/metallb/default-l2-advertisement.yaml
+
 ips=$(poetry run python ./scripts/talos.py ips --no-show-commands --type=control_plane |  tr '\n' ',' | sed 's/,$//')
 talosctl -n $ips  patch mc -p @./manifests/talos/patches/controlplane-patches.yaml
 ips=$(poetry run python ./scripts/talos.py ips --no-show-commands --type=workers |  tr '\n' ',' | sed 's/,$//')
