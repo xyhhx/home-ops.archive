@@ -1,0 +1,12 @@
+- op: add
+  path: /machine/install/extensions
+  value:
+    - image: ghcr.io/siderolabs/iscsi-tools:v0.1.1
+
+- op: add
+  path: /cluster/apiServer/admissionControl/0/configuration/exemptions
+  value:
+    namespaces:
+      - kube-system
+      - openebs
+      - monitoring

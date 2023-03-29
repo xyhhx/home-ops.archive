@@ -9,9 +9,17 @@ from time import sleep
 out_dir = ".talosconf"
 dry_run = False
 
+parser = argparse.ArgumentParser()
+parser.add_argument('action')
+parser.add_argument('--show-commands', required=False,
+                    action=argparse.BooleanOptionalAction)
+parser.add_argument('--type', required=False)
+args = parser.parse_args()
+
 
 def run_command(command):
-    print(command)
+    if (args.show_commands != False):
+        print(command)
     if not dry_run:
         result = subprocess.run(command.split(' '), capture_output=True)
     return result
@@ -23,6 +31,13 @@ def get_leases():
     data = json.loads(result.stdout.decode('utf-8'))
 
     return data
+
+
+def show_ips(node_type):
+    result = run_command('poetry run python ./scripts/retrieve-leases.py')
+    data = json.loads(result.stdout.decode('utf-8'))
+    for value in data[node_type]:
+        print(value)
 
 
 def gen_talos_conf(ipaddr):
@@ -68,9 +83,9 @@ def retry_command(command, max_tries=3, wait=30):
 def main():
     load_dotenv()
 
-    parser = argparse.ArgumentParser()
-    parser.add_argument('action')
-    args = parser.parse_args()
+    if args.action == 'ips':
+        show_ips(args.type)
+        exit()
 
     config_generated = False
     data = get_leases()
