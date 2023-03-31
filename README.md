@@ -69,6 +69,8 @@ kubectl -n openebs patch daemonset openebs-jiva-csi-node --type=json --patch '[{
 kubectl patch sc openebs-jiva-csi-default -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
 helm upgrade --install --create-namespace -n monitoring kube-prometheus-stack prometheus-community/kube-prometheus-stack
+
+kubectl apply -f ./manifests/kubernetes/traefik/deployment.yaml
 ```
 
 
