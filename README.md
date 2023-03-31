@@ -49,6 +49,7 @@ helm install cilium cilium/cilium --version 1.11.2 --namespace kube-system --set
 6. You will need to go through the motions to install/configure storage with OpenEBS:
 
 ```
+kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
 kubectl apply -n metallb-system -f ./manifests/kubernetes/metallb/nice-pool.yaml
 kubectl apply -n metallb-system -f ./manifests/kubernetes/metallb/default-l2-advertisement.yaml
 
