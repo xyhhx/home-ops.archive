@@ -8,10 +8,10 @@ The goal of this project is to deploy Kubernetes on Proxmox using Talos automati
 
 ### Installation
 
-1. Set up vars. `.envrc` will contain your sensitive vars like credentials and tokens. `terraform/.auto.tfvars` will contain your terraform specific config stuff
+1. Set up vars. `.env` will contain your sensitive vars like credentials and tokens. `terraform/.auto.tfvars` will contain your terraform specific config stuff
 
 ```
-cp .envrc.example .envrc
+cp .env.example .env
 touch terraform/.auto.tfvars
 ```
 
