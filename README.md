@@ -50,13 +50,13 @@ helm install cilium cilium/cilium --version 1.11.2 --namespace kube-system --set
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
-kubectl apply -n metallb-system -f ./manifests/kubernetes/metallb/nice-pool.yaml
-kubectl apply -n metallb-system -f ./manifests/kubernetes/metallb/default-l2-advertisement.yaml
+kubectl apply -n metallb-system -f ./kubernetes/metallb/nice-pool.yaml
+kubectl apply -n metallb-system -f ./kubernetes/metallb/default-l2-advertisement.yaml
 
 ips=$(poetry run python ./scripts/talos.py ips --no-show-commands --type=control_plane |  tr '\n' ',' | sed 's/,$//')
-talosctl -n $ips  patch mc -p @./manifests/talos/patches/controlplane-patches.yaml
+talosctl -n $ips  patch mc -p @./talos/patches/controlplane-patches.yaml
 ips=$(poetry run python ./scripts/talos.py ips --no-show-commands --type=workers |  tr '\n' ',' | sed 's/,$//')
-talosctl -n $ips  patch mc -p @./manifests/talos/patches/worker-patches.yaml
+talosctl -n $ips  patch mc -p @./talos/patches/worker-patches.yaml
 
 ips=$(poetry run python ./scripts/talos.py ips --no-show-commands --type=control_plane |  tr '\n' ',' | sed 's/,$//')
 talosctl -n $ips upgrade  --image=ghcr.io/siderolabs/installer:v1.3.5
@@ -64,13 +64,13 @@ ips=$(poetry run python ./scripts/talos.py ips --no-show-commands --type=workers
 talosctl -n $ips upgrade  --image=ghcr.io/siderolabs/installer:v1.3.5
 
 helm upgrade --install --create-namespace --namespace openebs --version 3.2.0 openebs-jiva openebs-jiva/jiva
-kubectl apply -n openebs -f ./manifests/kubernetes/openebs/configmap.yaml
+kubectl apply -n openebs -f ./kubernetes/openebs/configmap.yaml
 kubectl -n openebs patch daemonset openebs-jiva-csi-node --type=json --patch '[{"op": "add", "path": "/spec/template/spec/hostPID", "value": true}]'
 kubectl patch sc openebs-jiva-csi-default -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
 helm upgrade --install --create-namespace -n monitoring kube-prometheus-stack prometheus-community/kube-prometheus-stack
 
-kubectl apply -f ./manifests/kubernetes/traefik/deployment.yaml
+kubectl apply -f ./kubernetes/traefik/deployment.yaml
 ```
 
 
