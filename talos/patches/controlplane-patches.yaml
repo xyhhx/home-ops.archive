@@ -8,5 +8,15 @@
   value:
     namespaces:
       - kube-system
+      - qemu-guest-agent
       - openebs
       - monitoring
+
+- op: replace
+  path: /machine/features/kubernetesTalosAPIAccess
+  value:
+    enabled: true
+    allowedRoles:
+      - os:admin
+    allowedKubernetesNamespaces:
+      - qemu-guest-agent

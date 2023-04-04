@@ -50,6 +50,7 @@ helm install cilium cilium/cilium --version 1.11.2 --namespace kube-system --set
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
+
 kubectl apply -n metallb-system -f ./kubernetes/metallb/nice-pool.yaml
 kubectl apply -n metallb-system -f ./kubernetes/metallb/default-l2-advertisement.yaml
 
@@ -57,6 +58,10 @@ ips=$(poetry run python ./scripts/talos.py ips --no-show-commands --type=control
 talosctl -n $ips  patch mc -p @./talos/patches/controlplane-patches.yaml
 ips=$(poetry run python ./scripts/talos.py ips --no-show-commands --type=workers |  tr '\n' ',' | sed 's/,$//')
 talosctl -n $ips  patch mc -p @./talos/patches/worker-patches.yaml
+
+kubectl create ns qemu-guest-agent
+kubectl create secret -n qemu-guest-agent generic talosconfig --from-file=config=.talosconf/talosconfig
+kubectl apply -f ./talos/manifests/qemu-guest-agent-sa.yaml
 
 ips=$(poetry run python ./scripts/talos.py ips --no-show-commands --type=control_plane |  tr '\n' ',' | sed 's/,$//')
 talosctl -n $ips upgrade  --image=ghcr.io/siderolabs/installer:v1.3.5
