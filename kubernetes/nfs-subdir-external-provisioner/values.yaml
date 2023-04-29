@@ -1,0 +1,5 @@
+nfs:
+  server: 10.4.20.40
+  path: /export/k8s-data-public
+  mountOptions:
+    - nolock
