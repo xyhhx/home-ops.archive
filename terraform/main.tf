@@ -9,6 +9,7 @@ resource "proxmox_vm_qemu" "talos-control-plane" {
   sockets = 2
   cores   = 2
   scsihw  = "virtio-scsi-single"
+  onboot  = true
 
   network {
     firewall = false
@@ -35,6 +36,7 @@ resource "proxmox_vm_qemu" "talos-worker" {
   sockets = 2
   cores   = 2
   scsihw  = "virtio-scsi-single"
+  onboot  = true
 
   network {
     firewall = false
