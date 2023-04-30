@@ -71,7 +71,6 @@ talosctl -n $ips upgrade  --image=ghcr.io/siderolabs/installer:v1.3.5
 helm upgrade --install --create-namespace --namespace openebs --version 3.2.0 openebs-jiva openebs-jiva/jiva
 kubectl apply -n openebs -f ./kubernetes/openebs/configmap.yaml
 kubectl -n openebs patch daemonset openebs-jiva-csi-node --type=json --patch '[{"op": "add", "path": "/spec/template/spec/hostPID", "value": true}]'
-kubectl patch sc openebs-jiva-csi-default -p '{"metadata": {"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 
 helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
 helm install -n nfs-provisioner --create-namespace nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner -f ./kubernetes/nfs-subdir-external-provisioner/values.yaml

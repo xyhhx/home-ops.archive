@@ -3,3 +3,6 @@ nfs:
   path: /export/k8s-data-public
   mountOptions:
     - nolock
+storageClass:
+  create: true
+  defaultClass: true
