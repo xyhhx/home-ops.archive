@@ -10,6 +10,7 @@
       - kube-system
       - qemu-guest-agent
       - openebs
+      - nfs-provisioner
       - monitoring
 
 - op: replace
