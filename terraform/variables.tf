@@ -3,6 +3,12 @@ variable "pve_node" {
   description = "The Proxmox node to add the talos nodes to"
 }
 
+variable "pve_tags" {
+  type        = string
+  description = "The Proxmox VE tags to assign to the node"
+  default     = ""
+}
+
 variable "vlan_tag" {
   type        = string
   description = "The VLAN tag to attribute to the nodes' network devices"
@@ -34,11 +40,17 @@ variable "worker_nodes_count" {
 }
 
 variable "control_plane_total_mem" {
-  type = number
+  type        = number
   description = "How many MB to distribute among the control plane nodes"
 }
 
 variable "workers_total_mem" {
-  type = number
+  type        = number
   description = "How many MB to distribute among the worker nodes"
+}
+
+variable "qemu_guest_agent_enabled" {
+  type        = number
+  description = "Whether QEMU Guest Agent is enabled"
+  default     = 0
 }

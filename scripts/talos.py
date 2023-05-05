@@ -26,16 +26,15 @@ def run_command(command):
 
 
 def get_leases():
-    result = run_command(
-        'poetry run python ./scripts/retrieve-leases.py')
+    result = run_command('poetry run opnsense leases')
     data = json.loads(result.stdout.decode('utf-8'))
 
     return data
 
 
-def show_ips(node_type):
-    result = run_command('poetry run python ./scripts/retrieve-leases.py')
-    data = json.loads(result.stdout.decode('utf-8'))
+def show_node_ips(node_type):
+    data = get_leases()
+
     for value in data[node_type]:
         print(value)
 
@@ -47,7 +46,7 @@ def gen_talos_conf(ipaddr):
         print('%a/talosconfig exists, not generating a new one' % out_dir)
         return
 
-    command = "talosctl gen config %s https://%s:6443 --config-patch '[{\"op\": \"add\", \"path\": \"/cluster/network/cni\", \"value\": {\"name\": \"none\"}}]' --output %s" % (
+    command = "talosctl gen config %s https://%s:6443 --config-patch @talos/patches/config-patch.yaml --output %s" % (
         getenv('TALOS_CLUSTER_NAME'), ipaddr, out_dir)
     run_command(command)
 
@@ -84,22 +83,22 @@ def main():
     load_dotenv()
 
     if args.action == 'ips':
-        show_ips(args.type)
+        show_node_ips(args.type)
         exit()
 
-    config_generated = False
+    # config_generated = False
     data = get_leases()
 
     if args.action == 'gen':
-        if config_generated == False:
-            gen_talos_conf(data['control_plane'][0])
-            config_generated = True
-            run_command('talosctl --talosconfig %s/talosconfig config endpoint %s' %
-                        (out_dir, ' '.join([ip for ip in data['control_plane']])))
-            run_command('talosctl --talosconfig %s/talosconfig config node %s' %
-                        (out_dir, ' '.join([ip for ip in data['control_plane']])))
-            print('Your configs have been generated, and are available in %s/' % out_dir)
-            exit()
+        # if config_generated == False:
+        gen_talos_conf(data['control_plane'][0])
+        # config_generated = True
+        run_command('talosctl --talosconfig %s/talosconfig config endpoint %s' %
+                    (out_dir, ' '.join([ip for ip in data['control_plane']])))
+        run_command('talosctl --talosconfig %s/talosconfig config node %s' %
+                    (out_dir, ' '.join([ip for ip in data['control_plane']])))
+        print('Your configs have been generated, and are available in %s/' % out_dir)
+        exit()
 
     if args.action == 'apply':
         for ip in data['control_plane']:
@@ -129,4 +128,5 @@ def main():
         exit()
 
 
-main()
+if __name__ == "__main__":
+    main()

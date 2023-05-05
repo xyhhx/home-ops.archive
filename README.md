@@ -24,18 +24,14 @@ make tf
 3. Generate talos configs
 
 ```
-make talos-gen
-# Copy the command that it outputs
-rm -rf .talosconf
-# paste the command
-make talos-gen # (again)
-make talos-apply
+poetry run talos gen
+poetry run talos apply
 ```
 
 4. Wait for one of the control plane nodes to say something about "please run talosctl bootstrap", then do:
 
 ```
-make talos-bootstrap
+poetry run talos bootstrap
 ```
 
   - You can run `watch kubectl get nodes` to watch and see when your nodes are ready
@@ -51,8 +47,7 @@ helm install cilium cilium/cilium --version 1.11.2 --namespace kube-system --set
 ```
 kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
 
-kubectl apply -n metallb-system -f ./kubernetes/metallb/nice-pool.yaml
-kubectl apply -n metallb-system -f ./kubernetes/metallb/default-l2-advertisement.yaml
+kubectl apply -n metallb-system -f ./kubernetes/metallb/nice-pool.yaml  -f ./kubernetes/metallb/default-l2-advertisement.yaml
 
 ips=$(poetry run python ./scripts/talos.py ips --no-show-commands --type=control_plane |  tr '\n' ',' | sed 's/,$//')
 talosctl -n $ips  patch mc -p @./talos/patches/controlplane-patches.yaml
@@ -62,11 +57,12 @@ talosctl -n $ips  patch mc -p @./talos/patches/worker-patches.yaml
 kubectl create ns qemu-guest-agent
 kubectl create secret -n qemu-guest-agent generic talosconfig --from-file=config=.talosconf/talosconfig
 kubectl apply -f ./talos/manifests/qemu-guest-agent-sa.yaml
+terraform -chdir=terraform apply -var="qemu_guest_agent_enabled=1"
 
 ips=$(poetry run python ./scripts/talos.py ips --no-show-commands --type=control_plane |  tr '\n' ',' | sed 's/,$//')
-talosctl -n $ips upgrade  --image=ghcr.io/siderolabs/installer:v1.3.5
+talosctl -n $ips upgrade  --image=ghcr.io/siderolabs/installer:v1.3.5 --preserve
 ips=$(poetry run python ./scripts/talos.py ips --no-show-commands --type=workers |  tr '\n' ',' | sed 's/,$//')
-talosctl -n $ips upgrade  --image=ghcr.io/siderolabs/installer:v1.3.5
+talosctl -n $ips upgrade  --image=ghcr.io/siderolabs/installer:v1.3.5 --preserve
 
 helm upgrade --install --create-namespace --namespace openebs --version 3.2.0 openebs-jiva openebs-jiva/jiva
 kubectl apply -n openebs -f ./kubernetes/openebs/configmap.yaml

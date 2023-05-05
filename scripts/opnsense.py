@@ -1,3 +1,4 @@
+import argparse
 import json
 import re
 import requests
@@ -52,10 +53,10 @@ def get_dhcp_page(session, csrf_token):
     return response
 
 
-def get_leases_from_dhcp_page(response):
+def get_interface_leases_from_dhcp_page(response, interface):
     soup = BeautifulSoup(response.text, features="html.parser")
     rows = [row for row in soup.find_all(
-        'tr') if row.text.__contains__('NICE')]
+        'tr') if row.text.__contains__(interface)]
     regex = r"([0-9\.]+).* ([\w:]{17})"
 
     leases = {}
@@ -67,12 +68,12 @@ def get_leases_from_dhcp_page(response):
     return leases
 
 
-def main():
-    load_dotenv()
+def retrieve_leases():
     s = requests.Session()
     csrf_token = get_csrf_token(s)
     response = get_dhcp_page(s, csrf_token)
-    all_leases = get_leases_from_dhcp_page(response)
+    all_leases = get_interface_leases_from_dhcp_page(
+        response, getenv('OPNSENSE_INTERFACE'))
     talos_macs = get_macs_from_terraform()
 
     returns = {
@@ -83,4 +84,15 @@ def main():
     print('%s' % json.dumps(returns))
 
 
-main()
+def main():
+    load_dotenv()
+    parser = argparse.ArgumentParser()
+    parser.add_argument('action')
+    args = parser.parse_args()
+
+    if args.action == 'leases':
+        retrieve_leases()
+
+
+if __name__ == "__main__":
+    main()

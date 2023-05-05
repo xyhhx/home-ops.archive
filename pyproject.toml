@@ -5,13 +5,22 @@ description = ""
 authors = ["xyhhx <xyhhx@disr.it>"]
 readme = "README.md"
 
+packages = [
+  { include = "scripts" }
+]
+
 [tool.poetry.dependencies]
 python = "^3.10"
 bs4 = "^0.0.1"
 requests = "^2.28.2"
 python-dotenv = "^1.0.0"
 argparse = "^1.4.0"
+rich = "^13.3.5"
+pep8 = "^1.7.1"
 
+[tool.poetry.scripts]
+talos = "scripts.talos:main"
+opnsense = "scripts.opnsense:main"
 
 [build-system]
 requires = ["poetry-core"]

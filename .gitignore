@@ -10,3 +10,4 @@
 .auto.tfvars
 .talosconf
 kubeconfig
+__pycache__
