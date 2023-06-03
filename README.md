@@ -13,7 +13,9 @@ Getting the hang of this Kubernetes (and IaC) thing...
 - a **VM template in Proxmox to clone**, with a talos ISO in its cdrom drive
 - an **API Key for Proxmox**, as described in the Terraform provider's [docs](https://registry.terraform.io/providers/Telmate/proxmox/latest/docs#creating-the-proxmox-user-and-role-for-terraform)
 
-### Installation
+## Installation
+
+### Provisioning Talos nodes on Proxmox
 
 1. Set up vars. `.env` will contain your sensitive vars like credentials and tokens. `terraform/.auto.tfvars` will contain your terraform specific config stuff
 
@@ -116,6 +118,22 @@ Getting the hang of this Kubernetes (and IaC) thing...
 
     Now manually start all your nodes' VMs. When they start, they will restart once and then Terraform will be satisfied. If it complains, you can rerun the `apply` command and it should just work.
 
+
+## Bootstrapping Kubernetes with Flux
+
+1. Bootstrap Flux CRDs
+
+    ```sh
+    kubectl apply --server-side --kustomize kubernetes/bootstrap
+    sops -d secrets/home-ops-deploy-key.sops.yaml | kubectl apply -f -
+    sops -d secrets/home-ops-secrets-deploy-key.sops.yaml | kubectl apply -f -
+    kubectl apply --server-side --kustomize kubernetes/flux/config
+    ```
+
+---
+
+<details><summary>Old notes</summary>
+
 1. Install MetalLB:
 
     ```sh
@@ -147,3 +165,4 @@ Getting the hang of this Kubernetes (and IaC) thing...
     kubectl apply -f ./kubernetes/apps/traefik/deployment.yaml
     ```
 
+</details>
