@@ -6,8 +6,11 @@
 !.envrc.example
 .terraform
 *.tfstate
+*.bak
 *.backup
 .auto.tfvars
 .talosconf
 kubeconfig
 __pycache__
+talos/secrets.yaml
+generated

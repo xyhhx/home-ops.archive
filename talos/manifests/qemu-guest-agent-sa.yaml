@@ -1,7 +1,8 @@
+---
+# https://github.com/crisobal/qemu-guest-agent-talos
 apiVersion: apps/v1
 kind: DaemonSet
 metadata:
-  creationTimestamp: null
   name: qemu-ga-talos
   namespace: qemu-guest-agent
 spec:
@@ -10,7 +11,6 @@ spec:
       name: qemu-ga-talos
   template:
     metadata:
-      creationTimestamp: null
       labels:
         name: qemu-ga-talos
     spec:

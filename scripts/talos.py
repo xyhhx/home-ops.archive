@@ -6,23 +6,28 @@ from os import getenv
 from pathlib import Path
 from time import sleep
 
-out_dir = ".talosconf"
-dry_run = False
+
+load_dotenv()
+talosconfig = Path(getenv('TALOSCONFIG'))
+talos_secrets = Path('talos/secrets.yaml')
 
 parser = argparse.ArgumentParser()
 parser.add_argument('action')
 parser.add_argument('--show-commands', required=False,
                     action=argparse.BooleanOptionalAction)
 parser.add_argument('--type', required=False)
+parser.add_argument('--dry-run', required=False,
+                    action=argparse.BooleanOptionalAction)
 args = parser.parse_args()
 
 
 def run_command(command):
     if (args.show_commands != False):
         print(command)
-    if not dry_run:
+    if not args.dry_run:
         result = subprocess.run(command.split(' '), capture_output=True)
-    return result
+        return result
+    return
 
 
 def get_leases():
@@ -39,25 +44,34 @@ def show_node_ips(node_type):
         print(value)
 
 
-def gen_talos_conf(ipaddr):
-    talsoconfig = Path("%s/talosconfig" % out_dir)
+def check_secrets_exist():
+    if talos_secrets.is_file() is False:
+        print('No talos secrets. Please generate them')
+        exit(0)
 
-    if talsoconfig.is_file():
-        print('%a/talosconfig exists, not generating a new one' % out_dir)
+
+def gen_talos_conf(ipaddr):
+
+    if talosconfig.is_file():
+        print('%a exists, not generating a new one' % talosconfig)
         return
 
-    command = "talosctl gen config %s https://%s:6443 --config-patch @talos/patches/config-patch.yaml --output %s" % (
-        getenv('TALOS_CLUSTER_NAME'), ipaddr, out_dir)
+    command = "talosctl gen config %s https://%s:6443 \
+--with-docs=false \
+--with-examples=false \
+--with-secrets talos/secrets.yaml \
+--config-patch @generated/all.yaml \
+--config-patch-control-plane @generated/controlplane.yaml \
+--config-patch-control-plane @generated/cilium.yaml \
+--config-patch-worker @generated/worker.yaml \
+--output %s" % (
+        getenv('TALOS_CLUSTER_NAME'), ipaddr, talosconfig.parent)
     run_command(command)
-
-
-def patch_manifs():
-    confs = Path('%s/controlplane.yaml')
 
 
 def apply_config(ipaddr, conf_file):
     command = "talosctl apply-config --insecure --nodes %s --file %s/%s.yaml" % (
-        ipaddr, out_dir, conf_file)
+        ipaddr, talosconfig.parent, conf_file)
     return run_command(command)
 
 
@@ -80,7 +94,7 @@ def retry_command(command, max_tries=3, wait=30):
 
 
 def main():
-    load_dotenv()
+    check_secrets_exist()
 
     if args.action == 'ips':
         show_node_ips(args.type)
@@ -94,10 +108,11 @@ def main():
         gen_talos_conf(data['control_plane'][0])
         # config_generated = True
         run_command('talosctl --talosconfig %s/talosconfig config endpoint %s' %
-                    (out_dir, ' '.join([ip for ip in data['control_plane']])))
+                    (talosconfig.parent, ' '.join([ip for ip in data['control_plane']])))
         run_command('talosctl --talosconfig %s/talosconfig config node %s' %
-                    (out_dir, ' '.join([ip for ip in data['control_plane']])))
-        print('Your configs have been generated, and are available in %s/' % out_dir)
+                    (talosconfig.parent, ' '.join([ip for ip in data['control_plane']])))
+        print('Your configs have been generated, and are available in %s/' %
+              talosconfig.parent)
         exit()
 
     if args.action == 'apply':
@@ -118,7 +133,7 @@ def main():
 
         for command in commands:
             print(command)
-            if not dry_run:
+            if not args.dry_run:
                 try:
                     retry_command(command)
                 except Exception:
