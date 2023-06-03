@@ -14,5 +14,3 @@ spec:
         name: openebs-jiva
         namespace: flux-system
       interval: 1m
-  install:
-    createNamespace: true
