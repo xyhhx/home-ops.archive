@@ -1,8 +1,0 @@
-nfs:
-  server: 10.69.69.40
-  path: /export/k8s-data-public
-  mountOptions:
-    - nolock
-storageClass:
-  create: true
-  defaultClass: true
