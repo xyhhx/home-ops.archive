@@ -134,35 +134,14 @@ Getting the hang of this Kubernetes (and IaC) thing...
 
 <details><summary>Old notes</summary>
 
-1. Install MetalLB:
-
-    ```sh
-    kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
-    # Wait for all pods to succeed
-
-    kubectl apply -n metallb-system -f ./kubernetes/apps/metallb/nice-pool.yaml  -f ./kubernetes/apps/metallb/default-l2-advertisement.yaml
-    # Wait for all pods to succeed
-    ```
-
 
 1. Install the Helm releases:
 
     > ℹ️ (To move to Flux)
 
-    ```sh
-    helm upgrade --install --create-namespace --namespace openebs --version 3.2.0 openebs-jiva openebs-jiva/jiva
-    kubectl apply -n openebs -f ./kubernetes/apps/openebs/configmap.yaml
-    kubectl -n openebs patch daemonset openebs-jiva-csi-node --type=json --patch '[{"op": "add", "path": "/spec/template/spec/hostPID", "value": true}]'
-    ```
-    ```sh
-    helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
-    helm install -n nfs-provisioner --create-namespace nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner -f ./kubernetes/apps/nfs-subdir-external-provisioner/values.yaml
-    ```
+
     ```sh
     helm upgrade --install --create-namespace -n monitoring kube-prometheus-stack prometheus-community/kube-prometheus-stack
-    ```
-    ```sh
-    kubectl apply -f ./kubernetes/apps/traefik/deployment.yaml
     ```
 
 </details>

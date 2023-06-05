@@ -1,0 +1,14 @@
+---
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+  # - ./example/namespace.yaml
+  # - ./example/ks.yaml
+  - ./kube-prometheus-stack/namespace.yaml
+  - ./kube-prometheus-stack/ks.yaml
+  - ./metallb/namespace.yaml
+  - ./metallb/ks.yaml
+  - ./openebs-jiva/namespace.yaml
+  - ./openebs-jiva/ks.yaml
+  # - ./nfs-subdir-external-provisioner/ks.yaml
+  - ./traefik/ks.yaml
