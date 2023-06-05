@@ -11,4 +11,6 @@ resources:
   - ./openebs-jiva/namespace.yaml
   - ./openebs-jiva/ks.yaml
   # - ./nfs-subdir-external-provisioner/ks.yaml
+  - ./cert-manager/namespace.yaml
+  - ./cert-manager/ks.yaml
   - ./traefik/ks.yaml

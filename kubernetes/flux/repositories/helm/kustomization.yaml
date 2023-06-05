@@ -6,4 +6,5 @@ resources:
   - nfs-subdir-external-provisioner.yaml
   - openebs-jiva.yaml
   - prometheus-community.yaml
+  - jetstack.yaml
   - traefik.yaml
