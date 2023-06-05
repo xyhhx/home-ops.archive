@@ -13,7 +13,9 @@ Getting the hang of this Kubernetes (and IaC) thing...
 - a **VM template in Proxmox to clone**, with a talos ISO in its cdrom drive
 - an **API Key for Proxmox**, as described in the Terraform provider's [docs](https://registry.terraform.io/providers/Telmate/proxmox/latest/docs#creating-the-proxmox-user-and-role-for-terraform)
 
-### Installation
+## Installation
+
+### Provisioning Talos nodes on Proxmox
 
 1. Set up vars. `.env` will contain your sensitive vars like credentials and tokens. `terraform/.auto.tfvars` will contain your terraform specific config stuff
 
@@ -116,34 +118,31 @@ Getting the hang of this Kubernetes (and IaC) thing...
 
     Now manually start all your nodes' VMs. When they start, they will restart once and then Terraform will be satisfied. If it complains, you can rerun the `apply` command and it should just work.
 
-1. Install MetalLB:
+
+## Bootstrapping Kubernetes with Flux
+
+1. Bootstrap Flux CRDs
 
     ```sh
-    kubectl apply -f https://raw.githubusercontent.com/metallb/metallb/v0.13.9/config/manifests/metallb-native.yaml
-    # Wait for all pods to succeed
-
-    kubectl apply -n metallb-system -f ./kubernetes/apps/metallb/nice-pool.yaml  -f ./kubernetes/apps/metallb/default-l2-advertisement.yaml
-    # Wait for all pods to succeed
+    kubectl apply --server-side --kustomize kubernetes/bootstrap
+    sops -d secrets/home-ops-deploy-key.sops.yaml | kubectl apply -f -
+    sops -d secrets/home-ops-secrets-deploy-key.sops.yaml | kubectl apply -f -
+    kubectl apply --server-side --kustomize kubernetes/flux/config
     ```
+
+---
+
+<details><summary>Old notes</summary>
 
 
 1. Install the Helm releases:
 
     > ℹ️ (To move to Flux)
 
-    ```sh
-    helm upgrade --install --create-namespace --namespace openebs --version 3.2.0 openebs-jiva openebs-jiva/jiva
-    kubectl apply -n openebs -f ./kubernetes/apps/openebs/configmap.yaml
-    kubectl -n openebs patch daemonset openebs-jiva-csi-node --type=json --patch '[{"op": "add", "path": "/spec/template/spec/hostPID", "value": true}]'
-    ```
-    ```sh
-    helm repo add nfs-subdir-external-provisioner https://kubernetes-sigs.github.io/nfs-subdir-external-provisioner/
-    helm install -n nfs-provisioner --create-namespace nfs-subdir-external-provisioner nfs-subdir-external-provisioner/nfs-subdir-external-provisioner -f ./kubernetes/apps/nfs-subdir-external-provisioner/values.yaml
-    ```
+
     ```sh
     helm upgrade --install --create-namespace -n monitoring kube-prometheus-stack prometheus-community/kube-prometheus-stack
     ```
-    ```sh
-    kubectl apply -f ./kubernetes/apps/traefik/deployment.yaml
-    ```
 
+
+</details>
