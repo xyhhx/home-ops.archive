@@ -130,18 +130,3 @@ Getting the hang of this Kubernetes (and IaC) thing...
     kubectl apply --server-side --kustomize kubernetes/flux/config
     ```
 
----
-
-<details><summary>Old notes</summary>
-
-
-1. Install the Helm releases:
-
-    > ℹ️ (To move to Flux)
-
-
-    ```sh
-    helm upgrade --install --create-namespace -n monitoring kube-prometheus-stack prometheus-community/kube-prometheus-stack
-    ```
-
-</details>
