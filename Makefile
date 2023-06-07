@@ -17,3 +17,10 @@ flux:
 	sops -d secrets/home-ops-deploy-key.sops.yaml | kubectl apply -f -
 	sops -d secrets/home-ops-secrets-deploy-key.sops.yaml | kubectl apply -f -
 	kubectl apply --server-side --kustomize kubernetes/flux/system
+
+flux-down:
+	kubectl delete --kustomize kubernetes/flux/workloads
+	flux uninstall
+
+k8s-cilium:
+	./scripts/delete-failed-cilium-pods.sh

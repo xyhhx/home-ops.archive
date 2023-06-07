@@ -1,10 +1,10 @@
-<center>
+<header align="center">
 
 # Homelab Ops
 
 Getting the hang of this Kubernetes (and IaC) thing...
 
-</center>
+</header>
 
 ### Prerequirements
 
@@ -12,6 +12,7 @@ Getting the hang of this Kubernetes (and IaC) thing...
     - You will need a user to log in with
 - a **VM template in Proxmox to clone**, with a talos ISO in its cdrom drive
 - an **API Key for Proxmox**, as described in the Terraform provider's [docs](https://registry.terraform.io/providers/Telmate/proxmox/latest/docs#creating-the-proxmox-user-and-role-for-terraform)
+- I use [gum](https://github.com/charmbracelet/gum) in some places for pretty cli prompts (for now)
 
 ## Installation
 
@@ -84,49 +85,55 @@ Getting the hang of this Kubernetes (and IaC) thing...
 
     > ℹ️ You can run `watch kubectl get nodes` to watch and see when your nodes are ready
 
+    > ℹ️ You can run `watch kubectl get pods --all-namespaces` to watch and see when your pods are ready
 
 
 1. Install QEMU Guest Agent
 
-    > ⚠️ This step requires manually stopping/starting nodes. If you don't have redundant nodes, your cluster will experience downtime (though only a few minutes)
+    > ⚠️ This step requires manually stopping/starting nodes. My setup has 7 nodes, so that's the assumption here
 
-    ```sh
-    kubectl create ns qemu-guest-agent
-    kubectl create secret -n qemu-guest-agent generic talosconfig --from-file=config="$TALOSCONFIG"
-    kubectl apply -f ./talos/manifests/qemu-guest-agent-sa.yaml
-    ```
+    - Configure the cluster:
 
-    At this point you will have failings pods equal to the total nodes you have.
+      ```sh
+      kubectl create ns qemu-guest-agent
+      kubectl create secret -n qemu-guest-agent generic talosconfig --from-file=config="$TALOSCONFIG"
+      kubectl apply -f ./talos/manifests/qemu-guest-agent-sa.yaml
+      ```
 
-    ```sh
-    terraform -chdir=terraform apply -var="qemu_guest_agent_enabled=1"
-    ```
-
-    Terraform will now try to update all nodes.
-
-    ```sh
-    # Workers
-    ips=$(poetry run talos ips --no-show-commands --type=workers |  tr '\n' ',' | sed 's/,$//')
-    talosctl -n $ips shutdown
-    # Control Planes (Not 1st)
-    ips=$(poetry run talos ips --no-show-commands --type=control_plane | tail -n -2 | tr '\n' ',' | sed 's/,$//')
-    talosctl -n $ips shutdown
-    # 1st Control Plane
-    ips=$(poetry run talos ips --no-show-commands --type=control_plane | head -n 1 | tr '\n' ',' | sed 's/,$//')
-    talosctl -n $ips shutdown
-    ```
-
-    Now manually start all your nodes' VMs. When they start, they will restart once and then Terraform will be satisfied. If it complains, you can rerun the `apply` command and it should just work.
+      At this point you will have failings pods equal to the total nodes you have. It's normal
 
 
-## Bootstrapping Kubernetes with Flux
+    - Enable QEMU Guest Agent with Terraform
 
-1. Bootstrap Flux CRDs
+      ```sh
+      terraform -chdir=terraform apply -var="qemu_guest_agent_enabled=1"
+      ```
 
-    ```sh
-    kubectl apply --server-side --kustomize kubernetes/bootstrap
-    sops -d secrets/home-ops-deploy-key.sops.yaml | kubectl apply -f -
-    sops -d secrets/home-ops-secrets-deploy-key.sops.yaml | kubectl apply -f -
-    kubectl apply --server-side --kustomize kubernetes/flux/config
-    ```
+      Terraform will now try to update all nodes, but it won't be able to succeed until they're rebooted with the agent running.
+
+    - Rebooting the nodes
+
+      We'll shutdown all but 1 cp node, first.
+
+      ```sh
+      # Select all nodes except first cp node
+      ips="$(poetry run talos ips --no-show-commands --type=workers |  tr '\n' ',' | sed 's/,$//'),$(poetry run talos ips --no-show-commands --type=control_plane | tail -n -2 | tr '\n' ',' | sed 's/,$//')"
+      talosctl -n $ips shutdown
+      ```
+
+      Once they're off, just turn them back on in proxmox. They'll automatically boot, start the agent, reboot once more, and then satisfy Terraform.
+
+      Finally, you can forcefully stop and restart the first cp node and it will also automatically reboot and configure itself.
+
+
+  1. Bootstrap Flux CRDs
+
+      ```sh
+      make flux
+      ```
+
+### Final Step(s)
+
+- You will probably want to assign static mappings in OPNsense to ensure that Talos nodes keep their DHCP leases
+
 
