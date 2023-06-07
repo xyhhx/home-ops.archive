@@ -2,16 +2,16 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # - ./example/namespace.yaml
+  # - ./example/ns.yaml
   # - ./example/ks.yaml
-  - ./kube-prometheus-stack/namespace.yaml
+  - ./kube-prometheus-stack/ns.yaml
   - ./kube-prometheus-stack/ks.yaml
-  - ./metallb/namespace.yaml
+  - ./metallb/ns.yaml
   - ./metallb/ks.yaml
-  - ./openebs-jiva/namespace.yaml
+  - ./openebs-jiva/ns.yaml
   - ./openebs-jiva/ks.yaml
-  - ./nfs-subdir-external-provisioner/namespace.yaml
+  - ./nfs-subdir-external-provisioner/ns.yaml
   - ./nfs-subdir-external-provisioner/ks.yaml
-  # - ./cert-manager/namespace.yaml
+  # - ./cert-manager/ns.yaml
   # - ./cert-manager/ks.yaml
   - ./traefik/ks.yaml

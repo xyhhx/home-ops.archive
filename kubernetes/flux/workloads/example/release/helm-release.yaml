@@ -1,3 +1,4 @@
+# https://fluxcd.io/flux/guides/helmreleases/
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
@@ -16,5 +17,3 @@ spec:
         namespace: flux-system
       interval: 1m
   values:
-    storageClass:
-      isDefaultClass: true
