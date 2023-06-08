@@ -5,7 +5,7 @@ metadata:
   name: nfs-subdir-external-provisioner-release
   namespace: flux-system
 spec:
-  path: ./kubernetes/flux/workloads/nfs-subdir-external-provisioner/release
+  path: ./kubernetes/workloads/nfs-subdir-external-provisioner/release
   prune: true
   sourceRef:
     kind: GitRepository
@@ -14,3 +14,9 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
+  postBuild:
+    substitute: {}
+    substituteFrom:
+      - kind: ConfigMap
+        name: global-vars
+        optional: false

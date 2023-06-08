@@ -8,7 +8,7 @@ spec:
   interval: 30m
   url: ssh://git@github.com/xyhhx/home-ops
   ref:
-    branch: master
+    branch: flux-global-vars
   secretRef:
     name: home-ops-deploy-key
 ---
@@ -25,3 +25,8 @@ spec:
   sourceRef:
     kind: GitRepository
     name: flux-system
+  postBuild:
+    substituteFrom:
+      - kind: ConfigMap
+        name: global-vars
+        optional: false

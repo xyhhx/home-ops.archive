@@ -1,0 +1,9 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  namespace: flux-system
+  name: global-vars
+data:
+  NFS_ADDRESS: 10.4.20.40
+  NFS_EXPORT_PATH: /export/k8s-data-public

@@ -2,10 +2,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: openebs-jiva-release
+  name: kube-prometheus-stack-release
   namespace: flux-system
 spec:
-  path: ./kubernetes/flux/workloads/openebs-jiva/release
+  path: ./kubernetes/workloads/kube-prometheus-stack/release
   prune: true
   sourceRef:
     kind: GitRepository

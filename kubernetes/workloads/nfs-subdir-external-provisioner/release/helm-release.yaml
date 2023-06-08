@@ -17,9 +17,8 @@ spec:
       interval: 1m
   values:
     nfs:
-      server: 10.69.69.40
-      path: /export/k8s-data-public
+      server: ${NFS_ADDRESS}
+      path: ${NFS_EXPORT_PATH}
       mountOptions:
+        - rw
         - nolock
-    storageClass:
-      create: true

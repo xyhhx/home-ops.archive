@@ -2,10 +2,10 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: traefik-release
+  name: metallb-release
   namespace: flux-system
 spec:
-  path: ./kubernetes/flux/workloads/traefik/release
+  path: ./kubernetes/workloads/metallb/release
   prune: true
   sourceRef:
     kind: GitRepository
@@ -14,18 +14,16 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
-  dependsOn:
-    - name: metallb-config
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: traefik-config
+  name: metallb-config
   namespace: flux-system
 spec:
   dependsOn:
-    - name: traefik-release
-  path: ./kubernetes/flux/workloads/traefik/config
+    - name: metallb-release
+  path: ./kubernetes/workloads/metallb/config
   prune: true
   sourceRef:
     kind: GitRepository

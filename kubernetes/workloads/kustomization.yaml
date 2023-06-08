@@ -10,8 +10,8 @@ resources:
   - ./metallb/ks.yaml
   - ./openebs-jiva/ns.yaml
   - ./openebs-jiva/ks.yaml
-  - ./nfs-subdir-external-provisioner/ns.yaml
-  - ./nfs-subdir-external-provisioner/ks.yaml
+  # - ./nfs-subdir-external-provisioner/ns.yaml
+  # - ./nfs-subdir-external-provisioner/ks.yaml
   # - ./cert-manager/ns.yaml
   # - ./cert-manager/ks.yaml
   - ./traefik/ks.yaml
