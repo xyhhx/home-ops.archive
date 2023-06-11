@@ -20,5 +20,4 @@ spec:
       server: ${NFS_ADDRESS}
       path: ${NFS_EXPORT_PATH}
       mountOptions:
-        - rw
         - nolock
