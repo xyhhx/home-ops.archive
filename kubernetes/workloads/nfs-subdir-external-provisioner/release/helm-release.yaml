@@ -21,3 +21,5 @@ spec:
       path: ${NFS_EXPORT_PATH}
       mountOptions:
         - nolock
+    storageClass:
+      accessModes: ReadWriteMany
