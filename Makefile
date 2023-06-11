@@ -12,10 +12,14 @@ down:
 	$(tf) destroy && \
 	rm -rf .talosconf kubeconfig
 
+flux-only:
+	kubectl apply --server-side --kustomize kubernetes/bootstrap
+
 flux:
 	kubectl apply --server-side --kustomize kubernetes/bootstrap
-	sops -d secrets/home-ops-deploy-key.sops.yaml | kubectl apply -f -
-	sops -d secrets/home-ops-secrets-deploy-key.sops.yaml | kubectl apply -f -
+	sops -d secrets/bootstrap/sops-age.sops.yaml | kubectl apply -f -
+	sops -d secrets/bootstrap/home-ops-deploy-key.sops.yaml | kubectl apply -f -
+	sops -d secrets/bootstrap/home-ops-secrets-deploy-key.sops.yaml | kubectl apply -f -
 	kubectl apply -f kubernetes/flux/vars/global-vars.yaml
 	kubectl apply --server-side --kustomize kubernetes/flux/system
 

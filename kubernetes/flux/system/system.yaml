@@ -1,5 +1,5 @@
 ---
-apiVersion: source.toolkit.fluxcd.io/v1beta2
+apiVersion: source.toolkit.fluxcd.io/v1
 kind: GitRepository
 metadata:
   name: flux-system
@@ -8,7 +8,7 @@ spec:
   interval: 30m
   url: ssh://git@github.com/xyhhx/home-ops
   ref:
-    branch: master
+    branch: cert-manager-2
   secretRef:
     name: home-ops-deploy-key
 ---
@@ -30,3 +30,21 @@ spec:
       - kind: ConfigMap
         name: global-vars
         optional: false
+---
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: workload-secrets
+  namespace: flux-system
+spec:
+  interval: 30m
+  url: ssh://git@github.com/xyhhx/home-ops-secrets
+  ref:
+    branch: cert-manager-2
+  secretRef:
+    name: home-ops-secrets-deploy-key
+  ignore: |
+    # exclude all
+    /*
+    # include namespaces directory
+    !/namespaces

@@ -17,3 +17,9 @@ spec:
       interval: 1m
   values:
     installCRDs: true
+    global:
+      rbac:
+        create: true
+
+      leaderElection:
+        namespace: cert-manager

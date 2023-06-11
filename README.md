@@ -125,6 +125,15 @@ Getting the hang of this Kubernetes (and IaC) thing...
 
       Finally, you can forcefully stop and restart the first cp node and it will also automatically reboot and configure itself.
 
+      <details>
+      <summary>ℹ️ To clear those failed Cilium pods:</summary>
+
+      ```sh
+      kubectl -n kube-system delete pods $(kubectl get pods -n kube-system | grep cilium | grep Shutdown | grep 0/1 | awk '{print  $1}' | tr '\n' ' ')
+      ```
+      
+      </details>
+
 
   1. Bootstrap Flux CRDs
 

@@ -7,4 +7,6 @@ metadata:
 data:
   # NFS_ADDRESS: 10.4.20.40
   # NFS_EXPORT_PATH: /export/k8s-data-public
-  METALLB_POOL: 10.69.69.10-10.69.69.99
+  METALLB_POOL: "10.69.69.10-10.69.69.99"
+  CERT_MANAGER_DNS_COMMON_NAME: "ab.hor.rent"
+  CERT_MANAGER_DNS_WILDCARD: "*.ab.hor.rent"
