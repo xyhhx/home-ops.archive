@@ -6,13 +6,23 @@ Getting the hang of this Kubernetes (and IaC) thing...
 
 </header>
 
-### Prerequirements
+### Prerequirements / Assumptions
 
-- **OPNSense** with a DHCP-enabled VLAN for nodes to use
-    - You will need a user to log in with
-- a **VM template in Proxmox to clone**, with a talos ISO in its cdrom drive
-- an **API Key for Proxmox**, as described in the Terraform provider's [docs](https://registry.terraform.io/providers/Telmate/proxmox/latest/docs#creating-the-proxmox-user-and-role-for-terraform)
+- **OPNSense**
+  - My network is managed by an OPNsense virtual machine. It's not configured in this reop (yet)
+  - There should be a VLAN for the Talos nodes
+  - That VLAN should have DHCP enabled
+    - It is a good idea to separate the available addresses into those for physical nodes and those for pods running on them (which you will define in your metallb pool)
+  - A user with enough access that they can retreive DHCP leases, for use with scripts
+  - Port forwarding from your WAN to your decided IP
+  - Unbound configured to point your domain to that IP on at least your Talos VLAN
+- **Proxmox**
+  - a **VM template to clone**, with a talos ISO in its cdrom drive
+  - an **API Key for Proxmox**, as described in the Terraform provider's [docs](https://registry.terraform.io/providers/Telmate/proxmox/latest/docs#creating-the-proxmox-user-and-role-for-terraform)
+- **Git Repositories**
+  - TODO: Document this
 - I use [gum](https://github.com/charmbracelet/gum) in some places for pretty cli prompts (for now)
+
 
 ## Installation
 
@@ -144,5 +154,4 @@ Getting the hang of this Kubernetes (and IaC) thing...
 ### Final Step(s)
 
 - You will probably want to assign static mappings in OPNsense to ensure that Talos nodes keep their DHCP leases
-
 
