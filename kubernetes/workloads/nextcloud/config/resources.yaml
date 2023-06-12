@@ -1,37 +1,25 @@
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
-metadata:
-  name: nextcloud-web
-  namespace: default
-spec:
-  entryPoints:
-    - web
-  routes:
-    - kind: Rule
-      match: Host(`nextcloud.ab.hor.rent`) && PathPrefix(`/`)
-      services:
-        - name: nextcloud
-          namespace: nextcloud
-          port: 8080
 ---
-apiVersion: traefik.containo.us/v1alpha1
-kind: IngressRoute
+apiVersion: networking.k8s.io/v1
+kind: Ingress
 metadata:
-  name: nextcloud-websecure
+  name: nextcloud
   namespace: default
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-staging"
 spec:
-  entryPoints:
-    - websecure
-  routes:
-    - kind: Rule
-      match: Host(`nextcloud.ab.hor.rent`) && PathPrefix(`/`)
-      services:
-        - name: nextcloud
-          namespace: nextcloud
-          port: 8080
   tls:
-    domains:
-      - main: nextcloud.ab.hor.rent
-    secretName: tls-nextcloud-ingressroute-http
+    - hosts:
+        - nextcloud.ab.hor.rent
+      secretName: tls-nextcloud-ingress-http
+  rules:
+    - host: nextcloud.ab.hor.rent
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nextcloud
+                namespace: nextcloud
+                port:
+                  number: 8080
