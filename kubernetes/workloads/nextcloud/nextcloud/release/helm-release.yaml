@@ -29,6 +29,10 @@ spec:
       storageClass: nfs-client
       size: 50Gi
       accessModes: ReadWriteMany
+    internalDatabase: false
+    externalDatabase:
+      enabled: true
+      type: postgresql
     postgresql:
       enabled: true
       persistence:
