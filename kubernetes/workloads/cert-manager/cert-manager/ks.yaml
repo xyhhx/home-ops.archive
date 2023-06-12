@@ -27,7 +27,7 @@ metadata:
 spec:
   dependsOn:
     - name: cert-manager-secrets
-  path: ./kubernetes/workloads/cert-manager/release
+  path: ./kubernetes/workloads/cert-manager/cert-manager/release
   prune: true
   sourceRef:
     kind: GitRepository
@@ -45,7 +45,7 @@ metadata:
 spec:
   dependsOn:
     - name: cert-manager-release
-  path: ./kubernetes/workloads/cert-manager/config
+  path: ./kubernetes/workloads/cert-manager/cert-manager/config
   prune: true
   sourceRef:
     kind: GitRepository
