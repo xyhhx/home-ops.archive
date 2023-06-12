@@ -18,7 +18,7 @@ spec:
       interval: 1m
   values:
     nextcloud:
-      host: nextcloud.talos.pve.local
+      host: nextcloud.ab.hor.rent
       existingSecret:
         enabled: true
         secretName: nextcloud-secrets
