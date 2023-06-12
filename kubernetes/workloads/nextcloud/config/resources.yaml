@@ -3,7 +3,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: nextcloud
-  namespace: default
+  namespace: nextcloud
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-staging"
 spec:
@@ -20,6 +20,5 @@ spec:
             backend:
               service:
                 name: nextcloud
-                namespace: nextcloud
                 port:
                   number: 8080
