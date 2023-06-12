@@ -8,3 +8,4 @@ resources:
   - openebs-jiva.yaml
   - prometheus-community.yaml
   - traefik.yaml
+  - nextcloud.yaml

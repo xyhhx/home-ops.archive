@@ -14,4 +14,6 @@ resources:
   - ./nfs-subdir-external-provisioner/ks.yaml
   - ./cert-manager/ns.yaml
   - ./cert-manager/ks.yaml
+  - ./nextcloud/ns.yaml
+  - ./nextcloud/ks.yaml
   - ./traefik/ks.yaml
