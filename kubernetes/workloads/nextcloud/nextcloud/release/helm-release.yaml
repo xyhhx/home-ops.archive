@@ -29,18 +29,28 @@ spec:
       storageClass: nfs-client
       size: 50Gi
       accessModes: ReadWriteMany
-    internalDatabase: false
+    internalDatabase:
+      enabled: false
     externalDatabase:
       enabled: true
       type: postgresql
+      database: nextcloud
+      user: nextcloud
+      existingSecret:
+        enabled: true
+        secretName: postgres-secrets
+        passwordKey: user-password
     postgresql:
       enabled: true
       persistence:
         enabled: true
-      auth:
-        database: nextcloud
-        existingSecret: postgres-secrets
-        secretKeys:
-          adminPasswordKey: admin-password
-          userPasswordKey: user-password
-          replicationPasswordKey: replication-password
+      global:
+        postgresql:
+          database: nextcloud
+          auth:
+            username: nextcloud
+            existingSecret: postgres-secrets
+            secretKeys:
+              adminPasswordKey: admin-password
+              userPasswordKey: user-password
+              replicationPasswordKey: replication-password
