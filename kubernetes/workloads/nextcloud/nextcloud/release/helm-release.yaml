@@ -28,8 +28,11 @@ spec:
       enabled: true
       storageClass: nfs-client
       size: 50Gi
+      accessModes: ReadWriteMany
     postgres:
       enabled: true
+      persistence:
+        enabled: true
       auth:
         existingSecret:
           enabled: true
