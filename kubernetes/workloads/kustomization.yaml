@@ -2,9 +2,9 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  - kube-prometheus-stack
+  - monitoring
   - metallb
-  - openebs-jiva
-  - nfs-subdir-external-provisioner
+  - openebs
+  - nfs-provisioner
   - cert-manager
   - nextcloud
