@@ -19,6 +19,8 @@ kind: IngressRoute
 metadata:
   name: nextcloud-websecure
   namespace: default
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
 spec:
   entryPoints:
     - websecure
@@ -30,4 +32,6 @@ spec:
           namespace: nextcloud
           port: 8080
   tls:
-    certResolver: "letsencrypt-staging"
+    - hosts:
+        - nextcloud.ab.hor.rent
+      secretName: tls-nextcloud-ingressroute-http
