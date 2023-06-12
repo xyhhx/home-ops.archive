@@ -40,7 +40,7 @@ spec:
   interval: 30m
   url: ssh://git@github.com/xyhhx/home-ops-secrets
   ref:
-    branch: cert-manager-2
+    branch: nextcloud-release
   secretRef:
     name: home-ops-secrets-deploy-key
   ignore: |

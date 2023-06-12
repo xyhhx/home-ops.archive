@@ -25,6 +25,8 @@ metadata:
   name: cert-manager-release
   namespace: flux-system
 spec:
+  dependsOn:
+    - name: cert-manager-secrets
   path: ./kubernetes/workloads/cert-manager/release
   prune: true
   sourceRef:
