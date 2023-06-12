@@ -31,3 +31,7 @@ spec:
         - name: nextcloud
           namespace: nextcloud
           port: 8080
+  tls:
+    domains:
+      - main: nextcloud.ab.hor.rent
+    secretName: tls-nextcloud-ingressroute-http
