@@ -30,3 +30,9 @@ spec:
       size: 50Gi
     postgres:
       enabled: true
+      auth:
+        existingSecret:
+          enabled: true
+          secretName: postgres-secrets
+          usernameKey: username
+          passwordKey: password
