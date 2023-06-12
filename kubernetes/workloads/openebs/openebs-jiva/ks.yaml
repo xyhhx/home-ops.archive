@@ -5,7 +5,7 @@ metadata:
   name: openebs-jiva-release
   namespace: flux-system
 spec:
-  path: ./kubernetes/workloads/openebs-jiva/release
+  path: ./kubernetes/workloads/openebs/openebs-jiva/release
   prune: true
   sourceRef:
     kind: GitRepository

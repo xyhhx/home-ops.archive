@@ -25,7 +25,7 @@ metadata:
   name: nextcloud-release
   namespace: flux-system
 spec:
-  path: ./kubernetes/workloads/nextcloud/release
+  path: ./kubernetes/workloads/nextcloud/nextcloud/release
   prune: true
   sourceRef:
     kind: GitRepository
@@ -43,7 +43,7 @@ metadata:
 spec:
   dependsOn:
     - name: nextcloud-release
-  path: ./kubernetes/workloads/nextcloud/config
+  path: ./kubernetes/workloads/nextcloud/nextcloud/config
   prune: true
   sourceRef:
     kind: GitRepository

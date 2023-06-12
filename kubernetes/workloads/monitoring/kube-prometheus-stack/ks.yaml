@@ -5,7 +5,7 @@ metadata:
   name: kube-prometheus-stack-release
   namespace: flux-system
 spec:
-  path: ./kubernetes/workloads/kube-prometheus-stack/release
+  path: ./kubernetes/workloads/monitoring/kube-prometheus-stack/release
   prune: true
   sourceRef:
     kind: GitRepository
