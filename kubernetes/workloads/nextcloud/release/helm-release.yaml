@@ -24,3 +24,5 @@ spec:
         secretName: nextcloud-secrets
         usernameKey: nextcloud-username
         passwordKey: nextcloud-password
+    nginx:
+      enabled: true
