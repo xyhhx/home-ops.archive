@@ -24,3 +24,9 @@ spec:
         secretName: nextcloud-secrets
         usernameKey: nextcloud-username
         passwordKey: nextcloud-password
+    persistence:
+      enabled: true
+      storageClass: nfs-client
+      size: 50Gi
+    postgres:
+      enabled: true
