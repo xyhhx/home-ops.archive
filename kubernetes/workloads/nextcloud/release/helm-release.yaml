@@ -17,3 +17,10 @@ spec:
         namespace: flux-system
       interval: 1m
   values:
+    nextcloud:
+      host: nextcloud.talos.pve.local
+      existingSecret:
+        enabled: true
+        secretName: nextcloud-secrets
+        usernameKey: nextcloud-username
+        passwordKey: nextcloud-password
