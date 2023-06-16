@@ -13,18 +13,18 @@ down:
 	rm -rf .talosconf kubeconfig
 
 flux-only:
-	kubectl apply --server-side --kustomize kubernetes/bootstrap
+	kubectl apply --server-side -k kubernetes/bootstrap
 
 flux:
-	kubectl apply --server-side --kustomize kubernetes/bootstrap
+	kubectl apply --server-side -k kubernetes/bootstrap
 	sops -d secrets/bootstrap/sops-age.sops.yaml | kubectl apply -f -
 	sops -d secrets/bootstrap/home-ops-deploy-key.sops.yaml | kubectl apply -f -
 	sops -d secrets/bootstrap/home-ops-secrets-deploy-key.sops.yaml | kubectl apply -f -
 	kubectl apply -f kubernetes/flux/vars/global-vars.yaml
-	kubectl apply --server-side --kustomize kubernetes/flux/system
+	kubectl apply --server-side -k kubernetes/flux/system
 
 flux-down:
-	kubectl delete --kustomize kubernetes/workloads
+	kubectl delete -k kubernetes/workloads
 	flux uninstall
 
 k8s-cilium:
