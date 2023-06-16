@@ -7,4 +7,5 @@ resources:
   - metallb
   # - nfs-provisioner
   - cert-manager
-  - nextcloud
+  - flux-system
+  # - nextcloud

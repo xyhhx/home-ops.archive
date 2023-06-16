@@ -6,6 +6,7 @@ resources:
   - metallb.yaml
   - nfs-subdir-external-provisioner.yaml
   - openebs-jiva.yaml
+  - weaveworks.yaml
   - prometheus-community.yaml
   - traefik.yaml
   - nextcloud.yaml
