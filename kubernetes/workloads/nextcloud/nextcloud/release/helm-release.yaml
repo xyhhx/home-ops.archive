@@ -1,4 +1,3 @@
-# https://fluxcd.io/flux/guides/helmreleases/
 ---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
@@ -26,31 +25,14 @@ spec:
         passwordKey: nextcloud-password
     persistence:
       enabled: true
-      storageClass: nfs-client
-      size: 50Gi
-      accessModes: ReadWriteMany
     internalDatabase:
       enabled: false
     externalDatabase:
       enabled: true
+      host: postgresql-nextcloud.nextcloud.svc.cluster.local:5432
       type: postgresql
       database: nextcloud
       user: nextcloud
       existingSecret:
-        enabled: true
-        secretName: postgres-secrets
-        passwordKey: user-password
-    postgresql:
-      enabled: true
-      persistence:
-        enabled: true
-      global:
-        postgresql:
-          database: nextcloud
-          auth:
-            username: nextcloud
-            existingSecret: postgres-secrets
-            secretKeys:
-              adminPasswordKey: admin-password
-              userPasswordKey: user-password
-              replicationPasswordKey: replication-password
+        secretName: nextcloud-secrets
+        passwordKey: db-password

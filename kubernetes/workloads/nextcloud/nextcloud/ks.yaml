@@ -27,6 +27,9 @@ metadata:
 spec:
   path: ./kubernetes/workloads/nextcloud/nextcloud/release
   prune: true
+  dependsOn:
+    - name: nextcloud-secrets
+    - name: nextcloud-postgresql-release
   sourceRef:
     kind: GitRepository
     name: flux-system

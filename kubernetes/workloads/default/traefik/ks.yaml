@@ -5,7 +5,7 @@ metadata:
   name: traefik-release
   namespace: flux-system
 spec:
-  path: ./kubernetes/workloads/traefik/release
+  path: ./kubernetes/workloads/default/traefik/release
   prune: true
   sourceRef:
     kind: GitRepository
@@ -25,7 +25,7 @@ metadata:
 spec:
   dependsOn:
     - name: traefik-release
-  path: ./kubernetes/workloads/traefik/config
+  path: ./kubernetes/workloads/default/traefik/config
   prune: true
   sourceRef:
     kind: GitRepository

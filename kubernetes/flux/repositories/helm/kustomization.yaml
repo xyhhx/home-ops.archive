@@ -7,6 +7,7 @@ resources:
   - nfs-subdir-external-provisioner.yaml
   - openebs-jiva.yaml
   - weaveworks.yaml
+  - bitnami.yaml
   - prometheus-community.yaml
   - traefik.yaml
   - nextcloud.yaml

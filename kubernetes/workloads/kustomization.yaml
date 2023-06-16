@@ -8,4 +8,5 @@ resources:
   # - nfs-provisioner
   - cert-manager
   - flux-system
-  # - nextcloud
+  - nextcloud
+  - default
