@@ -5,8 +5,9 @@ resources:
   - openebs
   - monitoring
   - metallb
-  # - nfs-provisioner
+  - nfs-provisioner
   - cert-manager
   - flux-system
-  - nextcloud
   - default
+  - nextcloud
+  - media

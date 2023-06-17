@@ -1,0 +1,10 @@
+apiVersion: source.toolkit.fluxcd.io/v1
+kind: GitRepository
+metadata:
+  name: brianmcarey-jellyfin
+  namespace: flux-system
+spec:
+  interval: 1m
+  url: https://github.com/brianmcarey/jellyfin-helm
+  ref:
+    branch: main
