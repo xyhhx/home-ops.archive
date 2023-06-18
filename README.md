@@ -181,3 +181,14 @@ Since I use [Qubes](https://qubes-os.org), I've opted to split my secrets into t
 ### Set up
 
 (todo)
+
+
+---
+
+Some stuff I referenced while doing this:
+
+- https://github.com/onedr0p/home-ops
+- https://github.com/0dragosh/homelab
+- https://www.talos.dev/v1.4/kubernetes-guides/configuration/replicated-local-storage-with-openebs-jiva/
+
+Thanks! 🙏
