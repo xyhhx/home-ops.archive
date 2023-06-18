@@ -6,25 +6,34 @@ Getting the hang of this Kubernetes (and IaC) thing...
 
 </header>
 
-### Prerequirements / Assumptions
+### Existing Infrastructure
 
 - **OPNSense**
-  - My network is managed by an OPNsense virtual machine. It's not configured in this reop (yet)
+  - My network is managed by an OPNsense virtual machine
   - There should be a VLAN for the Talos nodes
   - That VLAN should have DHCP enabled
     - It is a good idea to separate the available addresses into those for physical nodes and those for pods running on them (which you will define in your metallb pool)
   - A user with enough access that they can retreive DHCP leases, for use with scripts
   - Port forwarding from your WAN to your decided IP
   - Unbound configured to point your domain to that IP on at least your Talos VLAN
-- **Proxmox**
+- **External Storage**
+  - There's an openmediavault VM on the Proxmox host
+    - It has a NIC on the Talos cluster's VLAN
+  - There are NFS shares for Talos
+- **Proxmox configuration**
   - a **VM template to clone**, with a talos ISO in its cdrom drive
   - an **API Key for Proxmox**, as described in the Terraform provider's [docs](https://registry.terraform.io/providers/Telmate/proxmox/latest/docs#creating-the-proxmox-user-and-role-for-terraform)
 - **Git Repositories**
-  - TODO: Document this
+  - `home-ops`
+    - This repo contains scripts and manifests necessary for bootstrapping and workloads (flux)
+    - There are no secrets in this repo
+  - `home-ops-secrets` / `home-ops/secrets`
+    - This contains some SOPS encrypted secrets
+    - Details in the [Secrets](#secrets) section
 - I use [gum](https://github.com/charmbracelet/gum) in some places for pretty cli prompts (for now)
 
 
-## Installation
+## Bootsrapping the Cluster
 
 ### Provisioning Talos nodes on Proxmox
 
@@ -141,7 +150,7 @@ Getting the hang of this Kubernetes (and IaC) thing...
       ```sh
       kubectl -n kube-system delete pods $(kubectl get pods -n kube-system | grep cilium | grep Shutdown | grep 0/1 | awk '{print  $1}' | tr '\n' ' ')
       ```
-      
+
       </details>
 
 
@@ -155,3 +164,19 @@ Getting the hang of this Kubernetes (and IaC) thing...
 
 - You will probably want to assign static mappings in OPNsense to ensure that Talos nodes keep their DHCP leases
 
+<h2 id="secrets">Secrets</h3>
+
+The secrets repo contains predefined secrets necessary for bootstrapping the cluster and for workloads.
+
+Since I use [Qubes](https://qubes-os.org), I've opted to split my secrets into those encrypted with GPG and those with age. In short, I can protect my private GPG key better by using Qubes [split GPG](https://www.qubes-os.org/doc/split-gpg/) and never leaving providing it to the cluster. This protects my repos' deploy keys and the cluster's age key.
+
+
+### Usage
+
+- The `home-ops-secrets` repo contains SOPS GPG encrypted Kubernetes Secret manifests containing the deploy keys for `home-ops`, `home-ops-secrest`, and an `age` key for Flux to use with SOPS
+- The `make flux` command decrypts those (I configured SOPS to use `qubes-gpg-client-wrapper`) with GPG, then passes them to the cluster
+- It then applies the Kustomize workloads in `kubernetes/flux`, which define the `home-ops` and `home-ops-secrets` repos as Sources, and spins up the workloads automatically
+
+### Set up
+
+(todo)
