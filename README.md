@@ -6,7 +6,7 @@ Getting the hang of this Kubernetes (and IaC) thing...
 
 </header>
 
-### Existing Infrastructure
+### Existing Infrastructure / Requirements
 
 - **OPNSense**
   - My network is managed by an OPNsense virtual machine
@@ -31,6 +31,7 @@ Getting the hang of this Kubernetes (and IaC) thing...
     - This contains some SOPS encrypted secrets
     - Details in the [Secrets](#secrets) section
 - I use [gum](https://github.com/charmbracelet/gum) in some places for pretty cli prompts (for now)
+- [Poetry](https://python-poetry.org/) is used for Python scripts
 
 
 ## Bootsrapping the Cluster
