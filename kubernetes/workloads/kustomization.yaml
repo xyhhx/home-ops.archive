@@ -8,6 +8,7 @@ resources:
   - nfs-provisioner
   - cert-manager
   - flux-system
-  - default
+  - kube-system
+  - keycloak
   - nextcloud
   - media

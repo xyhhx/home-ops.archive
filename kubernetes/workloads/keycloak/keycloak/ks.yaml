@@ -2,31 +2,33 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: traefik-release
+  name: keycloak-secrets
   namespace: flux-system
 spec:
-  path: ./kubernetes/workloads/default/traefik/release
+  path: ./namespaces/keycloak
   prune: true
   sourceRef:
     kind: GitRepository
-    name: flux-system
+    name: workload-secrets
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
   wait: true
   interval: 30m
   retryInterval: 1m
   timeout: 5m
-  dependsOn:
-    - name: metallb-config
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: traefik-config
+  name: keycloak-release
   namespace: flux-system
 spec:
-  dependsOn:
-    - name: traefik-release
-  path: ./kubernetes/workloads/default/traefik/config
+  path: ./kubernetes/workloads/keycloak/keycloak/release
   prune: true
+  dependsOn:
+    - name: keycloak-secrets
   sourceRef:
     kind: GitRepository
     name: flux-system

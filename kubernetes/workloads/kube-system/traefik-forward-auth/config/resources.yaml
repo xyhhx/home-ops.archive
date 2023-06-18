@@ -1,0 +1,163 @@
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: traefik-forward-auth
+  namespace: kube-system
+data:
+  INSECURE_COOKIE: "true"
+  COOKIE_DOMAIN: ab.hor.rent
+  DOMAINS: ab.hor.rent
+  AUTH_HOST: sso.ab.hor.rent
+  URL_PATH: /_oauth
+  DEFAULT_PROVIDER: oidc
+  PROVIDERS_OIDC_ISSUER_URL: https://auth.ab.hor.rent/realms/homelab
+  PROVIDERS_OIDC_CLIENT_ID: traefik-forward-auth
+---
+apiVersion: traefik.io/v1alpha1
+kind: Middleware
+metadata:
+  name: traefik-forward-auth
+  namespace: kube-system
+
+spec:
+  forwardAuth:
+    address: http://traefik-forward-auth/
+    trustForwardHeader: true
+    authResponseHeaders:
+      - X-Forwarded-User
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: traefik-forward-auth
+  namespace: kube-system
+
+spec:
+  selector:
+    app: traefik-forward-auth
+  ports:
+    - name: http
+      port: 80
+      targetPort: 4181
+      protocol: TCP
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  namespace: kube-system
+  name: traefik-forward-auth
+  labels:
+    app: traefik-forward-auth
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: traefik-forward-auth
+  template:
+    metadata:
+      labels:
+        app: traefik-forward-auth
+    spec:
+      containers:
+        - name: traefik-forward-auth
+          image: ghcr.io/jordemort/traefik-forward-auth
+          imagePullPolicy: Always
+          securityContext:
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65534
+            runAsGroup: 65534
+            capabilities:
+              drop:
+                - ALL
+          livenessProbe:
+            failureThreshold: 3
+            tcpSocket:
+              port: 4181
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            limits:
+              memory: "10Mi"
+              cpu: "100m"
+          ports:
+            - name: http
+              containerPort: 4181
+          env:
+            - name: PROVIDERS_OIDC_CLIENT_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: traefik-forward-auth
+                  key: PROVIDERS_OIDC_CLIENT_SECRET
+            - name: SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: traefik-forward-auth
+                  key: SECRET
+            - name: DEFAULT_PROVIDER
+              valueFrom:
+                configMapKeyRef:
+                  name: traefik-forward-auth
+                  key: DEFAULT_PROVIDER
+            - name: PROVIDERS_OIDC_ISSUER_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: traefik-forward-auth
+                  key: PROVIDERS_OIDC_ISSUER_URL
+            - name: PROVIDERS_OIDC_CLIENT_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: traefik-forward-auth
+                  key: PROVIDERS_OIDC_CLIENT_ID
+            - name: INSECURE_COOKIE
+              valueFrom:
+                configMapKeyRef:
+                  name: traefik-forward-auth
+                  key: INSECURE_COOKIE
+            - name: COOKIE_DOMAIN
+              valueFrom:
+                configMapKeyRef:
+                  name: traefik-forward-auth
+                  key: COOKIE_DOMAIN
+            - name: DOMAINS
+              valueFrom:
+                configMapKeyRef:
+                  name: traefik-forward-auth
+                  key: DOMAINS
+            - name: AUTH_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: traefik-forward-auth
+                  key: AUTH_HOST
+            - name: URL_PATH
+              valueFrom:
+                configMapKeyRef:
+                  name: traefik-forward-auth
+                  key: URL_PATH
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+
+metadata:
+  name: traefik-forward-auth
+  namespace: kube-system
+  annotations:
+    kubernetes.io/ingress.class: traefik
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+spec:
+  rules:
+    - host: sso.ab.hor.rent
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: traefik-forward-auth
+                port:
+                  name: http
+  tls:
+    - hosts:
+        - sso.ab.hor.rent
+      secretName: tls-traefik-forward-auth-ingress-http
