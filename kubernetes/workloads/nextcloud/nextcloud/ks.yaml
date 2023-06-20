@@ -36,7 +36,7 @@ spec:
   wait: true
   interval: 30m
   retryInterval: 1m
-  timeout: 5m
+  timeout: 10m
 ---
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
@@ -52,6 +52,6 @@ spec:
     kind: GitRepository
     name: flux-system
   wait: true
-  interval: 30m
-  retryInterval: 1m
-  timeout: 5m
+  interval: 30s
+  retryInterval: 2m
+  timeout: 15m

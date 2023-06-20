@@ -17,14 +17,53 @@ spec:
       interval: 1m
   values:
     nextcloud:
-      host: nextcloud.ab.hor.rent
+      host: cloud.ab.hor.rent
       existingSecret:
         enabled: true
         secretName: nextcloud-secrets
         usernameKey: nextcloud-username
         passwordKey: nextcloud-password
+      extraEnv:
+        - name: OIDC_CLIENT_SECRET
+          valueFrom:
+            secretKeyRef:
+              name: nextcloud-secrets
+              key: oidc-client-secret
+      configs:
+        oidcs-login.config.php: |-
+          <?php
+            $CONFIG = [
+              'oidc_login_client_id'            => 'cloud.ab.hor.rent',
+              'oidc_login_client_secret'        => getenv("OIDC_CLIENT_SECRET"),
+              'oidc_login_provider_url'         => 'https://auth.ab.hor.rent/realms/homelab',
+              'oidc_login_logout_url'           => 'https://cloud.ab.hor.rent/apps/oidc_login/oidc',
+              'oidc_login_auto_redirect'        => true,
+              'oidc_login_redir_fallback'       => true,
+              'oidc_login_end_session_redirect' => true,
+              'oidc_login_disable_registration' => false,
+              'oidc_login_attributes' => [
+                'id'   => 'preferred_username',
+                'mail' => 'email',
+                'is_admin' => 'nextcloud_admin'
+              ],
+              'overwriteprotocol' => 'https',
+              'oidc_login_code_challenge_method' => 'S256',
+            ]
+          ?>
     persistence:
       enabled: true
+      nextcloudData:
+        enabled: true
+        existingClaim: nextcloud-data-nfs
+    startupProbe:
+      enabled: true
+      periodSeconds: 30
+      failureThreshold: 10
+    livenessProbe:
+      enabled: true
+      initialDelaySeconds: 60
+      periodSeconds: 30
+      failureThreshold: 10
     internalDatabase:
       enabled: false
     externalDatabase:

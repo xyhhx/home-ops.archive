@@ -6,15 +6,13 @@ metadata:
   namespace: nextcloud
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
-    traefik.ingress.kubernetes.io/router.entrypoints: websecure
-    traefik.ingress.kubernetes.io/router.middlewares: kube-system-traefik-forward-auth@kubernetescrd
 spec:
   tls:
     - hosts:
-        - nextcloud.ab.hor.rent
+        - cloud.ab.hor.rent
       secretName: tls-nextcloud-ingress-http
   rules:
-    - host: nextcloud.ab.hor.rent
+    - host: cloud.ab.hor.rent
       http:
         paths:
           - path: /
