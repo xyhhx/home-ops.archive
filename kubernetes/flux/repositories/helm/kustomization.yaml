@@ -11,3 +11,4 @@ resources:
   - prometheus-community.yaml
   - traefik.yaml
   - nextcloud.yaml
+  - chrisingenhaag.yaml
