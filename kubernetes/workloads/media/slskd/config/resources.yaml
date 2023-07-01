@@ -1,0 +1,131 @@
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: slskd
+  namespace: media
+spec:
+  selector:
+    app: slskd
+  ports:
+    - name: web
+      port: 80
+      targetPort: 5030
+    - name: websecure
+      port: 443
+      targetPort: 5031
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: slskd-listen
+  namespace: media
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 10.69.69.11
+spec:
+  type: LoadBalancer
+  selector:
+    app: slskd
+  ports:
+    - port: 30602
+      nodePort: 30602
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: slskd-datadir
+  namespace: media
+spec:
+  storageClassName: openebs-jiva-csi-default
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 32Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: slskd
+  namespace: media
+spec:
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: slskd
+  template:
+    metadata:
+      labels:
+        app: slskd
+    spec:
+      containers:
+        - name: slskd
+          image: slskd/slskd
+          ports:
+            - containerPort: 5030
+              name: web
+            - containerPort: 5031
+              name: websecure
+            - containerPort: 30602
+              name: soulseek
+          env:
+            - name: SLSKD_NO_AUTH
+              value: "true"
+            - name: SLSKD_SLSK_LISTEN_PORT
+              value: "30602"
+            - name: SLSKD_SHARED_DIR
+              value: "[Music]/media/Music"
+            - name: SLSKD_DOWNLOADS_DIR
+              value: "/media/soulseek"
+            - name: SLSKD_INCOMPLETE_DIR
+              value: "/datadir/incomplete"
+            - name: SLSKD_SLSK_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: slskd-secrets
+                  key: soulseek-username
+            - name: SLSKD_SLSK_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: slskd-secrets
+                  key: soulseek-password
+          volumeMounts:
+            - name: nfs-vol
+              mountPath: /media
+            - name: jiva-vol
+              mountPath: /datadir/incomplete
+      volumes:
+        - name: nfs-vol
+          persistentVolumeClaim:
+            claimName: media-nfs
+        - name: jiva-vol
+          persistentVolumeClaim:
+            claimName: slskd-datadir
+  resources:
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: slskd
+  namespace: media
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-traefik-forward-auth@kubernetescrd
+spec:
+  tls:
+    - hosts:
+        - slskd.ab.hor.rent
+      secretName: tls-slskd-ingress-http
+  rules:
+    - host: slskd.ab.hor.rent
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: slskd
+                port:
+                  number: 80
