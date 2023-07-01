@@ -29,6 +29,13 @@ spec:
             secretKeyRef:
               name: nextcloud-secrets
               key: oidc-client-secret
+      extraVolumes:
+        - name: media-nfs-vol
+          persistentVolumeClaim:
+            claimName: nextcloud-media-nfs
+      extraVolumeMounts:
+        - name: media-nfs-vol
+          mountPath: "/mnt/media-nfs"
       configs:
         oidcs-login.config.php: |-
           <?php
