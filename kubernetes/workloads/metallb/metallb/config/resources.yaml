@@ -6,7 +6,8 @@ metadata:
   namespace: metallb-system
 spec:
   addresses:
-    - "10.69.0.10-10.69.60.249"
+    - 10.69.0.0/18 # 10.69.0.1-10.69.63.254
+    - 10.69.69.10-10.69.69.99
 ---
 apiVersion: metallb.io/v1beta1
 kind: L2Advertisement
