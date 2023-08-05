@@ -18,5 +18,4 @@ spec:
   values:
     service:
       annotations:
-        metallb.universe.tf/address-pool: nice-pool-2
-        metallb.universe.tf/loadBalancerIPs: 10.69.69.11
+        metallb.universe.tf/loadBalancerIPs: 10.69.0.10
