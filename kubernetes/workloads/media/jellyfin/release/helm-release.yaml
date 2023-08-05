@@ -9,6 +9,7 @@ spec:
   chart:
     spec:
       chart: .
+      version: "0.3.0"
       sourceRef:
         kind: GitRepository
         name: brianmcarey-jellyfin
