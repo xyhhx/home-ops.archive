@@ -51,7 +51,7 @@ resource "proxmox_vm_qemu" "talos-worker" {
 
   disk {
     type    = "scsi"
-    size    = "12G"
+    size    = "32G"
     storage = var.storage
   }
 
