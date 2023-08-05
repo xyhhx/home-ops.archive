@@ -15,7 +15,3 @@ spec:
         name: traefik
         namespace: flux-system
       interval: 1m
-  values:
-    service:
-      externalIPs:
-        - 10.69.69.10
