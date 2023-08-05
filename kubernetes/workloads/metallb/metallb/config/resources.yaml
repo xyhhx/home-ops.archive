@@ -7,6 +7,14 @@ metadata:
 spec:
   addresses:
     - 10.69.0.0/18 # 10.69.0.1-10.69.63.254
+---
+apiVersion: metallb.io/v1beta1
+kind: IPAddressPool
+metadata:
+  name: nice-pool-2
+  namespace: metallb-system
+spec:
+  addresses:
     - 10.69.69.10-10.69.69.99
 ---
 apiVersion: metallb.io/v1beta1
@@ -14,3 +22,7 @@ kind: L2Advertisement
 metadata:
   name: default-l2
   namespace: metallb-system
+spec:
+  ipAddressPools:
+    - nice-pool
+    - nice-pool-2

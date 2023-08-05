@@ -15,3 +15,8 @@ spec:
         name: traefik
         namespace: flux-system
       interval: 1m
+  values:
+    service:
+      annotations:
+        metallb.universe.tf/address-pool: nice-pool-2
+        metallb.universe.tf/loadBalancerIPs: 10.69.69.11
