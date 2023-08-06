@@ -30,9 +30,18 @@ spec:
         - name: calibre
           image: lscr.io/linuxserver/calibre:v6.23.0-ls231
           resources:
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65534
+            runAsGroup: 65534
+            seccompProfile:
+              type: RuntimeDefault
+            capabilities:
+              drop:
+                - ALL
           ports:
             - name: guac
               containerPort: 8080
@@ -47,9 +56,17 @@ spec:
         - name: calibre-web
           image: lscr.io/linuxserver/calibre-web:0.6.20-ls221
           resources:
-            limits:
-              memory: "128Mi"
-              cpu: "500m"
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 65534
+            runAsGroup: 65534
+            seccompProfile:
+              type: RuntimeDefault
+            capabilities:
+              drop:
+                - ALL
           ports:
             - name: web
               containerPort: 8083
