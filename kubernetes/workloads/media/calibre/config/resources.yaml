@@ -1,0 +1,68 @@
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: calibre-web-config
+  namespace: media
+spec:
+  storageClassName: openebs-jiva-csi-default
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 12Gi
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: calibre
+  namespace: media
+spec:
+  selector:
+    matchLabels:
+      app: calibre
+  template:
+    metadata:
+      labels:
+        app: calibre
+    spec:
+      containers:
+        - name: calibre
+          image: lscr.io/linuxserver/calibre:v6.23.0-ls231
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - name: guac
+              containerPort: 8080
+            - name: guac-secure
+              containerPort: 8181
+            - name: calibre
+              containerPort: 8081
+          volumeMounts:
+            - name: nfs-vol
+              mountPath: /media
+              subPath: Books
+        - name: calibre-web
+          image: lscr.io/linuxserver/calibre-web:0.6.20-ls221
+          resources:
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
+          ports:
+            - name: web
+              containerPort: 8083
+          volumeMounts:
+            - name: jiva-vol
+              mountPath: /config
+            - name: nfs-vol
+              mountPath: /books
+              subPath: Books
+      volumes:
+        - name: nfs-vol
+          persistentVolumeClaim:
+            claimName: media-nfs
+        - name: jiva-vol
+          persistentVolumeClaim:
+            claimName: calibre-web-config
