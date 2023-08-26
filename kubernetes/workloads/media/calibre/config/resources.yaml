@@ -30,18 +30,6 @@ spec:
         - name: calibre
           image: lscr.io/linuxserver/calibre:v6.23.0-ls231
           resources:
-
-          securityContext:
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-            runAsUser: 65534
-            runAsGroup: 65534
-            seccompProfile:
-              type: RuntimeDefault
-            capabilities:
-              drop:
-                - ALL
           ports:
             - name: guac
               containerPort: 8080
@@ -55,18 +43,6 @@ spec:
               subPath: Books
         - name: calibre-web
           image: lscr.io/linuxserver/calibre-web:0.6.20-ls221
-          resources:
-          securityContext:
-            allowPrivilegeEscalation: false
-            readOnlyRootFilesystem: true
-            runAsNonRoot: true
-            runAsUser: 65534
-            runAsGroup: 65534
-            seccompProfile:
-              type: RuntimeDefault
-            capabilities:
-              drop:
-                - ALL
           ports:
             - name: web
               containerPort: 8083
@@ -83,3 +59,44 @@ spec:
         - name: jiva-vol
           persistentVolumeClaim:
             claimName: calibre-web-config
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: calibre-web-listen
+  namespace: media
+  annotations:
+    metallb.universe.tf/loadBalancerIPs: 10.69.0.12
+spec:
+  type: LoadBalancer
+  selector:
+    app: calibre
+  ports:
+    - name: web
+      port: 32083
+      targetPort: 8083
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: calibre-web
+  namespace: media
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+spec:
+  tls:
+    - hosts:
+        - calibre-web.ab.hor.rent
+      secretName: tls-calibre-web-ingress-http
+  rules:
+    - host: calibre-web.ab.hor.rent
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: calibre-web-listen
+                port:
+                  name: web
