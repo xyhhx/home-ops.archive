@@ -1,0 +1,44 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: gitea
+  namespace: dev-environment
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: gitea
+      version: "9.3.0"
+      sourceRef:
+        kind: HelmRepository
+        name: gitea-charts
+        namespace: flux-system
+      interval: 1m
+  values:
+    # additionalConfigFromEnvs:
+    #   - name: GITEA__DATABASE__PASSWD
+    #     valueFrom:
+    #       secretKeyRef:
+    #         name: postgres-secret
+    #         key: password
+    # gitea:
+    #   config:
+    #     database:
+    #       DB_TYPE: mysql
+    #       HOST: postgresql-gitea.dev-environment.svc.cluster.local:5432
+    #       NAME: gitea
+    #       USER: gitea
+    #       SCHEMA: gitea
+
+    service:
+      metallb.universe.tf/allow-shared-ip: gitea
+
+    persistence:
+      enabled: false
+    redis-cluster:
+      enabled: false
+    postgresql:
+      enabled: false
+    postgresql-ha:
+      enabled: false
