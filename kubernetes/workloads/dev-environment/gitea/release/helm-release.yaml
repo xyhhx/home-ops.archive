@@ -20,12 +20,12 @@ spec:
       - name: GITEA__DATABASE__PASSWD
         valueFrom:
           secretKeyRef:
-            name: postgres-secret
+            name: postgres-secrets
             key: password
     gitea:
       config:
         database:
-          DB_TYPE: mysql
+          DB_TYPE: postgres
           HOST: postgresql-gitea.dev-environment.svc.cluster.local:5432
           NAME: gitea
           USER: gitea
