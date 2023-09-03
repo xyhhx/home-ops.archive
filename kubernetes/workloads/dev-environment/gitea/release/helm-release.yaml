@@ -16,26 +16,27 @@ spec:
         namespace: flux-system
       interval: 1m
   values:
-    # additionalConfigFromEnvs:
-    #   - name: GITEA__DATABASE__PASSWD
-    #     valueFrom:
-    #       secretKeyRef:
-    #         name: postgres-secret
-    #         key: password
-    # gitea:
-    #   config:
-    #     database:
-    #       DB_TYPE: mysql
-    #       HOST: postgresql-gitea.dev-environment.svc.cluster.local:5432
-    #       NAME: gitea
-    #       USER: gitea
-    #       SCHEMA: gitea
+    additionalConfigFromEnvs:
+      - name: GITEA__DATABASE__PASSWD
+        valueFrom:
+          secretKeyRef:
+            name: postgres-secret
+            key: password
+    gitea:
+      config:
+        database:
+          DB_TYPE: mysql
+          HOST: postgresql-gitea.dev-environment.svc.cluster.local:5432
+          NAME: gitea
+          USER: gitea
+          SCHEMA: gitea
+        session:
+          PROVIDER: memory
+        cache:
+          ADAPTER: memory
+        queue:
+          TYPE: level
 
-    service:
-      metallb.universe.tf/allow-shared-ip: gitea
-
-    persistence:
-      enabled: false
     redis-cluster:
       enabled: false
     postgresql:
