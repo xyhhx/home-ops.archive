@@ -16,30 +16,23 @@ spec:
         namespace: flux-system
       interval: 1m
   values:
-    additionalConfigFromEnvs:
-      - name: GITEA__DATABASE__PASSWD
-        valueFrom:
-          secretKeyRef:
-            name: postgres-secrets
-            key: password
-    gitea:
-      config:
-        database:
-          DB_TYPE: postgres
-          HOST: postgresql-gitea.dev-environment.svc.cluster.local:5432
-          NAME: gitea
-          USER: gitea
-          SCHEMA: gitea
-        session:
-          PROVIDER: memory
-        cache:
-          ADAPTER: memory
-        queue:
-          TYPE: level
-
     redis-cluster:
       enabled: false
     postgresql:
       enabled: false
     postgresql-ha:
       enabled: false
+
+    persistence:
+      enabled: false
+
+    gitea:
+      config:
+        database:
+          DB_TYPE: sqlite3
+        session:
+          PROVIDER: memory
+        cache:
+          ADAPTER: memory
+        queue:
+          TYPE: level

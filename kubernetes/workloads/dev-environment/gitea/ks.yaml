@@ -29,7 +29,7 @@ spec:
   prune: true
   dependsOn:
     - name: openebs-jiva-config
-    - name: gitea-postgresql-release
+    # - name: gitea-postgresql-release
   sourceRef:
     kind: GitRepository
     name: flux-system
