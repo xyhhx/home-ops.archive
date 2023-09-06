@@ -38,10 +38,8 @@ spec:
           ADAPTER: memory
         queue:
           TYPE: level
-
-      additionalConfigSources:
-        - secret:
-            secretName: gitea-app-ini-admin
+      admin:
+        existingSecret: gitea-admin-secret
 
       additionalConfigFromEnvs:
         - name: GITEA__DATABASE__PASSWD
