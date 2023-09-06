@@ -23,7 +23,7 @@ spec:
     postgresql-ha:
       enabled: false
     persistence:
-      enabled: true
+      enabled: false
     gitea:
       config:
         database:
