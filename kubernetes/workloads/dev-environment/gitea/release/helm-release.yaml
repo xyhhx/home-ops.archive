@@ -22,10 +22,8 @@ spec:
       enabled: false
     postgresql-ha:
       enabled: false
-
     persistence:
-      enabled: false
-
+      enabled: true
     gitea:
       config:
         database:
@@ -40,6 +38,18 @@ spec:
           ADAPTER: memory
         queue:
           TYPE: level
+      admin:
+        username:
+          valueFrom:
+            secretKeyRef:
+              name: gitea-secrets
+              key: adminUsername
+        password:
+          valueFrom:
+            secretKeyRef:
+              name: gitea-secrets
+              key: adminPassword
+
       additionalConfigFromEnvs:
         - name: GITEA__DATABASE__PASSWD
           valueFrom:
