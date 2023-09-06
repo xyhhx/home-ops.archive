@@ -34,7 +34,6 @@ spec:
           NAME: gitea
           USER: gitea
           PASSWD: gitea
-          SCHEMA: gitea
         session:
           PROVIDER: memory
         cache:
