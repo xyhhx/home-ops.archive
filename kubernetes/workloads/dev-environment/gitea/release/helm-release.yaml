@@ -29,10 +29,21 @@ spec:
     gitea:
       config:
         database:
-          DB_TYPE: sqlite3
+          DB_TYPE: postgres
+          HOST: postgresql-gitea.dev-environment.svc.cluster.local:5432
+          NAME: gitea
+          USER: gitea
+          PASSWD: gitea
+          SCHEMA: gitea
         session:
           PROVIDER: memory
         cache:
           ADAPTER: memory
         queue:
           TYPE: level
+      additionalConfigFromEnvs:
+        - name: GITEA__DATABASE__PASSWD
+          valueFrom:
+            secretKeyRef:
+              name: postgres-secrets
+              key: password

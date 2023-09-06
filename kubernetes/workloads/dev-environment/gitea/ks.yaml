@@ -2,7 +2,7 @@
 # apiVersion: kustomize.toolkit.fluxcd.io/v1
 # kind: Kustomization
 # metadata:
-#   name: gitea-secrets
+#   name: postgres-secrets
 #   namespace: flux-system
 # spec:
 #   path: ./namespaces/dev-environment
@@ -29,7 +29,7 @@ spec:
   prune: true
   dependsOn:
     - name: openebs-jiva-config
-    # - name: gitea-postgresql-release
+    - name: gitea-postgresql-release
   sourceRef:
     kind: GitRepository
     name: flux-system
@@ -37,21 +37,21 @@ spec:
   interval: 30m
   retryInterval: 1m
   timeout: 5m
-# ---
-# apiVersion: kustomize.toolkit.fluxcd.io/v1
-# kind: Kustomization
-# metadata:
-#   name: gitea-config
-#   namespace: flux-system
-# spec:
-#   dependsOn:
-#     - name: gitea-release
-#   path: ./kubernetes/workloads/dev-environment/gitea/config
-#   prune: true
-#   sourceRef:
-#     kind: GitRepository
-#     name: flux-system
-#   wait: true
-#   interval: 30s
-#   retryInterval: 2m
-#   timeout: 15m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: gitea-config
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: gitea-release
+  path: ./kubernetes/workloads/dev-environment/gitea/config
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  interval: 30s
+  retryInterval: 2m
+  timeout: 15m
