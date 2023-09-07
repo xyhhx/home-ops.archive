@@ -17,10 +17,6 @@ spec:
       containers:
       - name: noodle
         image: xyhhx/noodleapp
-        resources:
-          limits:
-            cpu: "150m"
-            memory: "32Mi"
         env:
           - name:  FOOD_DATA_CENTRAL_API_KEY
             valueFrom:
@@ -30,6 +26,7 @@ spec:
         ports:
         - name:  web
           containerPort:  3000
+        resources:
 ---
 kind: Service
 apiVersion: v1
