@@ -31,21 +31,21 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name:  noodle
+  name: noodle
+  namespace: default
 spec:
   selector:
-    app:  noodle
-  type:  NodePort
+    app: noodle
   ports:
-  - name:  web
-    port:  80
-    targetPort:  3000
+    - name: web
+      port: 80
+      targetPort: 3000
 ---
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: slskd
-  namespace: media
+  name: noodle
+  namespace: default
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-staging"
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
