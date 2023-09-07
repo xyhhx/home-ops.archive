@@ -47,7 +47,7 @@ metadata:
   name: noodle
   namespace: default
   annotations:
-    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
     traefik.ingress.kubernetes.io/router.entrypoints: websecure
 spec:
   tls:
