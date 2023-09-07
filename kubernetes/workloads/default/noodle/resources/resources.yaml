@@ -27,3 +27,45 @@ spec:
               secretKeyRef:
                 name:  fdc-api-token
                 key:  token
+        ports:
+        - name:  web
+          containerPort:  3000
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name:  noodle
+spec:
+  selector:
+    app:  noodle
+  type:  NodePort
+  ports:
+  - name:  web
+    port:  80
+    targetPort:  3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: slskd
+  namespace: media
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-staging"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+    traefik.ingress.kubernetes.io/router.middlewares: kube-system-traefik-forward-auth@kubernetescrd
+spec:
+  tls:
+    - hosts:
+        - noodle.ab.hor.rent
+      secretName: tls-noodle-ingress-http
+  rules:
+    - host: noodle.ab.hor.rent
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: noodle
+                port:
+                  number: 80
