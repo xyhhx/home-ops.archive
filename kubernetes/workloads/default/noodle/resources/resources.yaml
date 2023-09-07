@@ -1,0 +1,29 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: noodle
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: noodle
+  template:
+    metadata:
+      labels:
+        app: noodle
+    spec:
+      containers:
+      - name: noodle
+        image: xyhhx/noodleapp
+        resources:
+          limits:
+            cpu: "150m"
+            memory: "32Mi"
+        env:
+          - name:  FOOD_DATA_CENTRAL_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name:  fdc-api-token
+                key:  token
