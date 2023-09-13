@@ -2,7 +2,7 @@
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: noodle-secrets
+  name: nutrisus-secrets
   namespace: flux-system
 spec:
   path: ./namespaces/default
@@ -22,13 +22,13 @@ spec:
 apiVersion: kustomize.toolkit.fluxcd.io/v1
 kind: Kustomization
 metadata:
-  name: noodle-resources
+  name: nutrisus-resources
   namespace: flux-system
 spec:
-  path: ./kubernetes/workloads/default/noodle/resources
+  path: ./kubernetes/workloads/default/nutrisus/resources
   prune: true
   dependsOn:
-    - name: noodle-secrets
+    - name: nutrisus-secrets
   sourceRef:
     kind: GitRepository
     name: flux-system

@@ -2,21 +2,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: noodle
+  name: nutrisus
   namespace: default
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: noodle
+      app: nutrisus
   template:
     metadata:
       labels:
-        app: noodle
+        app: nutrisus
     spec:
       containers:
-      - name: noodle
-        image: xyhhx/noodleapp
+      - name: nutrisus
+        image: ghcr.io/xyhhx/nutrisus:main
         env:
           - name:  FOOD_DATA_CENTRAL_API_KEY
             valueFrom:
@@ -31,11 +31,11 @@ spec:
 kind: Service
 apiVersion: v1
 metadata:
-  name: noodle
+  name: nutrisus
   namespace: default
 spec:
   selector:
-    app: noodle
+    app: nutrisus
   ports:
     - name: web
       port: 80
@@ -44,7 +44,7 @@ spec:
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: noodle
+  name: nutrisus
   namespace: default
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
@@ -52,16 +52,16 @@ metadata:
 spec:
   tls:
     - hosts:
-        - noodle.ab.hor.rent
-      secretName: tls-noodle-ingress-http
+        - nutrisus.ab.hor.rent
+      secretName: tls-nutrisus-ingress-http
   rules:
-    - host: noodle.ab.hor.rent
+    - host: nutrisus.ab.hor.rent
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: noodle
+                name: nutrisus
                 port:
                   number: 80
