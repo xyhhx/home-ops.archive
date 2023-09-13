@@ -1,0 +1,67 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nutrisus
+  namespace: default
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nutrisus
+  template:
+    metadata:
+      labels:
+        app: nutrisus
+    spec:
+      containers:
+      - name: nutrisus
+        image: ghcr.io/xyhhx/nutrisus:main
+        env:
+          - name:  FOOD_DATA_CENTRAL_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name:  fdc-api-token
+                key:  token
+        ports:
+        - name:  web
+          containerPort:  3000
+        resources:
+---
+kind: Service
+apiVersion: v1
+metadata:
+  name: nutrisus
+  namespace: default
+spec:
+  selector:
+    app: nutrisus
+  ports:
+    - name: web
+      port: 80
+      targetPort: 3000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: nutrisus
+  namespace: default
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    traefik.ingress.kubernetes.io/router.entrypoints: websecure
+spec:
+  tls:
+    - hosts:
+        - nutrisus.ab.hor.rent
+      secretName: tls-nutrisus-ingress-http
+  rules:
+    - host: nutrisus.ab.hor.rent
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: nutrisus
+                port:
+                  number: 80

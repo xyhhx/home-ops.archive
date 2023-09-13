@@ -1,0 +1,44 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: nutrisus-secrets
+  namespace: flux-system
+spec:
+  path: ./namespaces/default
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: workload-secrets
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: nutrisus-resources
+  namespace: flux-system
+spec:
+  path: ./kubernetes/workloads/default/nutrisus/resources
+  prune: true
+  dependsOn:
+    - name: nutrisus-secrets
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  postBuild:
+    substitute: {}
+    substituteFrom:
+      - kind: ConfigMap
+        name: global-vars
+        optional: false
