@@ -16,6 +16,8 @@ spec:
         namespace: flux-system
       interval: 1m
   values:
+    image:
+      tag: "1.20.4"
     redis-cluster:
       enabled: false
     postgresql:
@@ -31,7 +33,6 @@ spec:
           HOST: postgresql-gitea.dev-environment.svc.cluster.local:5432
           NAME: gitea
           USER: gitea
-          PASSWD: gitea
         session:
           PROVIDER: memory
         cache:
