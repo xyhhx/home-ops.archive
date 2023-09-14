@@ -29,6 +29,8 @@ spec:
     gitea:
       config:
         APP_NAME: "Abhorrent Gitea"
+        service:
+          DISABLE_REGISTRATION: true
         server:
           ROOT_URL: "https://gitea.ab.hor.rent"
         database:
@@ -42,6 +44,8 @@ spec:
           ADAPTER: memory
         queue:
           TYPE: level
+        oauth2_client:
+          ENABLE_AUTO_REGISTRATION: true
       admin:
         existingSecret: gitea-admin-secret
       oauth:
