@@ -28,6 +28,9 @@ spec:
       enabled: false
     gitea:
       config:
+        APP_NAME: "Abhorrent Gitea"
+        server:
+          ROOT_URL: "https://gitea.ab.hor.rent"
         database:
           DB_TYPE: postgres
           HOST: postgresql-gitea.dev-environment.svc.cluster.local:5432
