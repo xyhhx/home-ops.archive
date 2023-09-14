@@ -4,6 +4,7 @@ kind: Kustomization
 resources:
   - bitnami.yaml
   - chrisingenhaag.yaml
+  - gitea.yaml
   - jetstack.yaml
   - k8s-at-home.yaml
   - metallb.yaml
