@@ -41,6 +41,11 @@ spec:
           TYPE: level
       admin:
         existingSecret: gitea-admin-secret
+      oauth:
+        - name: "Keycloak"
+          provider: "openidConnect"
+          autoDiscoverUrl: "https://auth.ab.hor.rent/realms/homelab/"
+          existingSecret: gitea-oauth-secret
 
       additionalConfigFromEnvs:
         - name: GITEA__DATABASE__PASSWD
