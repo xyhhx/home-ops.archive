@@ -33,6 +33,8 @@ spec:
           DISABLE_REGISTRATION: true
         server:
           ROOT_URL: "https://gitea.ab.hor.rent"
+          DOMAIN: "gitea.ab.hor.rent"
+          SSH_DOMAIN: "gitea.ab.hor.rent"
         database:
           DB_TYPE: postgres
           HOST: postgresql-gitea.dev-environment.svc.cluster.local:5432
@@ -51,8 +53,9 @@ spec:
       oauth:
         - name: "Keycloak"
           provider: "openidConnect"
-          autoDiscoverUrl: "https://auth.ab.hor.rent/realms/homelab/"
           existingSecret: gitea-oauth-secret
+          autoDiscoverUrl: "https://auth.ab.hor.rent/realms/homelab/.well-known/openid-configuration/"
+          skipLocal2fa: true
 
       additionalConfigFromEnvs:
         - name: GITEA__DATABASE__PASSWD
