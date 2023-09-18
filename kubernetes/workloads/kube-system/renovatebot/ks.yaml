@@ -1,0 +1,44 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: renovatebot-secrets
+  namespace: flux-system
+spec:
+  path: ./namespaces/kube-system/renovatebot
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: workload-secrets
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: renovatebot-config
+  namespace: flux-system
+spec:
+  dependsOn:
+    - name: renovatebot-secrets
+  path: ./kubernetes/workloads/kube-system/renovatebot/resources
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+  postBuild:
+    substitute: {}
+    substituteFrom:
+      - kind: ConfigMap
+        name: global-vars
+        optional: false
