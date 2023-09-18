@@ -15,7 +15,7 @@ spec:
             - name: renovate
               image: renovate/renovate:35.14.4
               args:
-                - user/repo
+                - xyhhx/home-ops
               env:
                 - name: LOG_LEVEL
                   value: debug
@@ -24,5 +24,5 @@ spec:
                     name: renovate-env
               resources:
                 limits:
-                  memory: "1G"
+                  memory: "2G"
           restartPolicy: Never
