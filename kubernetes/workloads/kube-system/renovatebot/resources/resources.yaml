@@ -22,4 +22,7 @@ spec:
               envFrom:
                 - secretRef:
                     name: renovate-env
+              resources:
+                limits:
+                  memory: "1G"
           restartPolicy: Never
