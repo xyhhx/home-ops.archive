@@ -80,7 +80,7 @@ spec:
           resources:
             limits:
               memory: "10Mi"
-              cpu: "100m"
+              cpu: "0.5"
           ports:
             - name: http
               containerPort: 4181
