@@ -8,8 +8,7 @@ data:
   config.json: |-
     {
       "username": "frenovate[bot]",
-      "gitAuthor": "frenovate[bot] <146583444+frenovate[bot]@users.noreply.github.com>",
-      "dryRun" : "true"
+      "gitAuthor": "frenovate[bot] <146583444+frenovate[bot]@users.noreply.github.com>"
     }
 
 ---
