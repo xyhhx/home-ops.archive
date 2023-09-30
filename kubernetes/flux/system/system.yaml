@@ -8,7 +8,7 @@ spec:
   interval: 30m
   url: ssh://git@github.com/xyhhx/home-ops
   ref:
-    branch: renovatebot
+    branch: main
   secretRef:
     name: home-ops-deploy-key
 ---
@@ -40,7 +40,7 @@ spec:
   interval: 30m
   url: ssh://git@github.com/xyhhx/home-ops-secrets
   ref:
-    branch: renovatebot
+    branch: main
   secretRef:
     name: home-ops-secrets-deploy-key
   ignore: |
