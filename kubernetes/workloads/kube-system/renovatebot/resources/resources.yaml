@@ -26,7 +26,7 @@ spec:
         spec:
           initContainers:
             - name: secrets-init
-              image: ghcr.io/xyhhx/init-gh-token
+              image: ghcr.io/xyhhx/init-gh-token:main
               env:
                 - name:  APP_ID
                   valueFrom:
