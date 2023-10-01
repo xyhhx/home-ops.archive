@@ -44,14 +44,13 @@ spec:
           containers:
             - name: renovate
               image: renovate/renovate:35.14.4
-              command:
-                - "RENOVATE_TOKEN=$(cat /mnt/token)"
-                - "renovate"
               args:
                 - xyhhx/home-ops
               env:
                 - name: LOG_LEVEL
                   value: debug
+                - name: RENOVATE_TOKEN
+                  value: "$(cat /mnt/token)"
               envFrom:
                 - secretRef:
                     name: renovate-env
