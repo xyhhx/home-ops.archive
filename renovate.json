@@ -1,3 +1,6 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json"
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "kubernetes": {
+    "fileMatch": ["^kubernetes/.*resources.yaml", "^kubernetes/.*config.yaml", "^kubernetes/.*kustomization.yaml", "^kubernetes/.*helm-release.yaml"]
+  }
 }
