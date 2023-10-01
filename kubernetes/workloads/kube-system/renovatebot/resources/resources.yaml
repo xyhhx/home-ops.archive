@@ -24,9 +24,29 @@ spec:
     spec:
       template:
         spec:
+          initContainers:
+            - name: secrets-init
+              image: ghcr.io/xyhhx/init-gh-token
+              env:
+                - name:  APP_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name:  renovate-env
+                      key: RENOVATE_GH_APP_ID
+                - name:  PRIVATE_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name:  renovate-env
+                      key: RENOVATE_GH_APP_PRIVATE_KEY
+              volumeMounts:
+                - mountPath: /mnt
+                  name: token-vol
           containers:
             - name: renovate
               image: renovate/renovate:35.14.4
+              command:
+                - "export RENOVATE_TOKEN=$(cat /mnt/token)"
+                - "renovate"
               args:
                 - xyhhx/home-ops
               env:
@@ -43,10 +63,14 @@ spec:
                   mountPath: /opt/renovate/
                 - name: work-volume
                   mountPath: /tmp/renovate/
+                - name: token-vol
+                  mountPath: /token
           restartPolicy: Never
           volumes:
             - name: config-volume
               configMap:
                 name: renovate-config
             - name: work-volume
+              emptyDir: {}
+            - name: token-vol
               emptyDir: {}
