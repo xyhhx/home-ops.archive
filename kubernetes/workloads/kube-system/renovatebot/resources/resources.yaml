@@ -64,7 +64,7 @@ spec:
                 - name: work-volume
                   mountPath: /tmp/renovate/
                 - name: token-vol
-                  mountPath: /token
+                  mountPath: /mnt
           restartPolicy: Never
           volumes:
             - name: config-volume
