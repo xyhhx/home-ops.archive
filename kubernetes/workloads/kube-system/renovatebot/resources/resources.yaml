@@ -44,13 +44,14 @@ spec:
           containers:
             - name: renovate
               image: renovate/renovate:35.14.4
+              command:
+                - /bin/sh
               args:
-                - xyhhx/home-ops
+                - -c
+                - export RENOVATE_TOKEN=$(cat /mnt/token); renovate xyhhx/home-ops
               env:
                 - name: LOG_LEVEL
                   value: debug
-                - name: RENOVATE_TOKEN
-                  value: "$(cat /mnt/token)"
               envFrom:
                 - secretRef:
                     name: renovate-env
@@ -64,6 +65,7 @@ spec:
                   mountPath: /tmp/renovate/
                 - name: token-vol
                   mountPath: /mnt
+                  readOnly: true
           restartPolicy: Never
           volumes:
             - name: config-volume
