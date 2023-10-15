@@ -20,3 +20,7 @@ spec:
     publicServerName: synpase.ab.hor.rent
     wellknown:
       enabled: true
+    signingKey:
+      existingSecret: synapse-signing-key
+      existingSecretKey: signingKey
+
