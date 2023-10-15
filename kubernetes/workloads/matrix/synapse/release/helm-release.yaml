@@ -20,6 +20,12 @@ spec:
     publicServerName: synpase.ab.hor.rent
     wellknown:
       enabled: true
+      server:
+        m.server: synapse.ab.hor.rent:443
+      client:
+        m.homeserver:
+          base_url: https://synapse.ab.hor.rent
+
     signingKey:
       existingSecret: synapse-signing-key
       existingSecretKey: signingKey
