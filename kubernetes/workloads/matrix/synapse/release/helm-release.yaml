@@ -17,7 +17,7 @@ spec:
       interval: 1m
   values:
     serverName: ab.hor.rent
-    publicServerName: synpase.ab.hor.rent
+    publicServerName: synapse.ab.hor.rent
     wellknown:
       enabled: true
       server:
