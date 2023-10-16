@@ -30,6 +30,7 @@ spec:
       sslmode: disable
     ingress:
       enabled: true
+      serveSimpleClient: true
       annotations:
         cert-manager.io/cluster-issuer: "letsencrypt-prod"
       hosts:
