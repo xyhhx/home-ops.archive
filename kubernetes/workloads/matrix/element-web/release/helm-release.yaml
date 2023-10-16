@@ -42,7 +42,6 @@ spec:
         feature_new_room_decoration_ui: true
         feature_notifications: true
         feature_ask_to_join: true
-        feature_rust_crypto: true
       default_federate: true
       default_theme: "dark"
       room_directory:
