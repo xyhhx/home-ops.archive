@@ -15,6 +15,15 @@ spec:
         name: ananace-charts
         namespace: flux-system
       interval: 1m
+  valuesFrom:
+    - kind: Secret
+      name: synapse-secrets
+      valuesKey: macaroonSecretKey
+      targetPath: config.macaroonSecretKey
+    - kind: Secret
+      name: synapse-secrets
+      valuesKey: registrationSharedSecret
+      targetPath: config.registrationSharedSecret
   values:
     serverName: ab.hor.rent
     publicServerName: synapse.ab.hor.rent
