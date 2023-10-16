@@ -27,7 +27,7 @@ spec:
   values:
     matrixServer: 'https://synapse.ab.hor.rent'
     postgresql:
-      sslmode: require
+      sslmode: disable
     ingress:
       enabled: true
       annotations:
