@@ -1,0 +1,61 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: element-web-release
+  namespace: matrix
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: element-web
+      version: "1.3.3"
+      sourceRef:
+        kind: HelmRepository
+        name: ananace-charts
+        namespace: flux-system
+      interval: 1m
+  values:
+    defaultServer:
+      url: "https://ab.hor.rent"
+      name: "ab.hor.rent"
+    config:
+      disable_custom_urls: true
+      disable_guests: true
+      disable_3pid_login: true
+      default_country_code: "CA"
+      show_labs_settings: true
+      features:
+        feature_report_to_moderators: true
+        feature_latex_maths: true
+        feature_pinning: true
+        feature_jump_to_date: true
+        feature_state_counters: true
+        feature_mjolnir: true
+        feature_dm_verification: true
+        feature_bridge_state: true
+        feature_custom_themes: true
+        feature_video_rooms: true
+        feature_element_call_video_rooms: true
+        feature_group_calls: true
+        feature_html_topic: true
+        feature_new_room_decoration_ui: true
+        feature_notifications: true
+        feature_ask_to_join: true
+      default_federate: true
+      default_theme: "dark"
+      room_directory:
+        servers:
+          - "ab.hor.rent"
+      setting_defaults:
+        breadcrumbs: true
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      hosts:
+        - element.ab.hor.rent
+      tls:
+        - secretName: tls-element-ingress-http
+          hosts:
+            - element.ab.hor.rent
