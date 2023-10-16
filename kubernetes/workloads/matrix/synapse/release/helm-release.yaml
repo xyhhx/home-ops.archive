@@ -29,6 +29,11 @@ spec:
       existingSecret: synapse-signing-key
       existingSecretKey: signingKey
     ingress:
+      traefikPaths: true
       annotations:
         cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      tls:
+        - hosts:
+            - synapse.ab.hor.rent
+          secretName: tls-synapse-ingress-http
 
