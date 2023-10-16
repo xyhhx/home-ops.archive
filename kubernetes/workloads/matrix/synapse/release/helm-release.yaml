@@ -27,11 +27,11 @@ spec:
     - kind: Secret
       name: synapse-secrets
       valuesKey: keycloakClientSecret
-      targetPath: config.oidc_providers[0].client_secret
+      targetPath: extraConfig.oidc_providers[0].client_secret
   values:
     serverName: ab.hor.rent
     publicServerName: synapse.ab.hor.rent
-    config:
+    extraConfig:
       oidc_providers:
         - idp_id: keycloak
           idp_name: "Keycloak"
