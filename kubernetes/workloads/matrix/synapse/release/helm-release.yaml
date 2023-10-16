@@ -1,0 +1,50 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: synapse-release
+  namespace: matrix
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: matrix-synapse
+      version: "3.7.8"
+      sourceRef:
+        kind: HelmRepository
+        name: ananace-charts
+        namespace: flux-system
+      interval: 1m
+  valuesFrom:
+    - kind: Secret
+      name: synapse-secrets
+      valuesKey: macaroonSecretKey
+      targetPath: config.macaroonSecretKey
+    - kind: Secret
+      name: synapse-secrets
+      valuesKey: registrationSharedSecret
+      targetPath: config.registrationSharedSecret
+  values:
+    serverName: ab.hor.rent
+    publicServerName: synapse.ab.hor.rent
+    wellknown:
+      enabled: true
+      server:
+        m.server: synapse.ab.hor.rent:443
+      client:
+        m.homeserver:
+          base_url: https://synapse.ab.hor.rent
+        org.matrix.msc3575.proxy:
+          url: https://syncv3.ab.hor.rent
+    signingKey:
+      existingSecret: synapse-signing-key
+      existingSecretKey: signingKey
+    ingress:
+      traefikPaths: true
+      annotations:
+        cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      tls:
+        - hosts:
+            - synapse.ab.hor.rent
+          secretName: tls-synapse-ingress-http
+

@@ -1,0 +1,41 @@
+---
+apiVersion: helm.toolkit.fluxcd.io/v2beta1
+kind: HelmRelease
+metadata:
+  name: sliding-sync-proxy-release
+  namespace: matrix
+spec:
+  interval: 5m
+  chart:
+    spec:
+      chart: sliding-sync-proxy
+      version: "0.2.5"
+      sourceRef:
+        kind: HelmRepository
+        name: ananace-charts
+        namespace: flux-system
+      interval: 1m
+  valuesFrom:
+    - kind: Secret
+      name: sliding-sync-proxy-secrets
+      valuesKey: syncSecret
+      targetPath: syncSecret
+    - kind: Secret
+      name: sliding-sync-proxy-secrets
+      valuesKey: databasePassword
+      targetPath: postgresql.auth.password
+  values:
+    matrixServer: 'https://synapse.ab.hor.rent'
+    postgresql:
+      sslmode: disable
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      hosts:
+        - syncv3.ab.hor.rent
+      tls:
+        - hosts:
+            - syncv3.ab.hor.rent
+          secretName: tls-syncv3-synapse-ingress-http
+
