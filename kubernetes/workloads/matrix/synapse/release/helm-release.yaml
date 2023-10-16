@@ -24,9 +24,26 @@ spec:
       name: synapse-secrets
       valuesKey: registrationSharedSecret
       targetPath: config.registrationSharedSecret
+    - kind: Secret
+      name: synapse-secrets
+      valuesKey: keycloakClientSecret
+      targetPath: config.oidc_providers[0].client_secret
   values:
     serverName: ab.hor.rent
     publicServerName: synapse.ab.hor.rent
+    config:
+      oidc_providers:
+        - idp_id: keycloak
+          idp_name: "Keycloak"
+          issuer: "https://auth.ab.hor.rent/realms/homelab"
+          client_id: "synapse"
+          client_secret: "copy secret generated from above"
+          scopes: ["openid", "profile"]
+          user_mapping_provider:
+            config:
+              localpart_template: "{{ user.preferred_username }}"
+              display_name_template: "{{ user.name }}"
+          backchannel_logout_enabled: true
     wellknown:
       enabled: true
       server:
@@ -47,4 +64,3 @@ spec:
         - hosts:
             - synapse.ab.hor.rent
           secretName: tls-synapse-ingress-http
-
