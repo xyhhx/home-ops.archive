@@ -26,6 +26,8 @@ spec:
       targetPath: postgresql.auth.password
   values:
     matrixServer: 'https://synapse.ab.hor.rent'
+    postgresql:
+      sslmode: require
     ingress:
       enabled: true
       annotations:
