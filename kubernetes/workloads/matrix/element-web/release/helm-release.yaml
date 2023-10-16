@@ -50,12 +50,13 @@ spec:
           - "ab.hor.rent"
       setting_defaults:
         breadcrumbs: true
-
     ingress:
       enabled: true
       annotations:
         cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      hosts:
+        - element.ab.hor.rent
       tls:
-        - hosts:
+        - secretName: tls-element-ingress-http
+          hosts:
             - element.ab.hor.rent
-          secretName: tls-element-ingress-http
