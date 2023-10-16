@@ -32,6 +32,8 @@ spec:
       enabled: true
       annotations:
         cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      hosts:
+        - syncv3.ab.hor.rent
       tls:
         - hosts:
             - syncv3.ab.hor.rent
