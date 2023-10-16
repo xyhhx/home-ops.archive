@@ -34,6 +34,8 @@ spec:
       client:
         m.homeserver:
           base_url: https://synapse.ab.hor.rent
+        org.matrix.msc3575.proxy:
+          url: https://syncv3.ab.hor.rent
     signingKey:
       existingSecret: synapse-signing-key
       existingSecretKey: signingKey
