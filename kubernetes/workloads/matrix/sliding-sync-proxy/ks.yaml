@@ -9,7 +9,7 @@ spec:
   prune: true
   dependsOn:
     - name: openebs-jiva-config
-    - name: matrix-secrets
+    - name: sliding-sync-proxy-secrets
   sourceRef:
     kind: GitRepository
     name: flux-system
