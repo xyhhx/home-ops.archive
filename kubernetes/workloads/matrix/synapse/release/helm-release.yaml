@@ -57,11 +57,11 @@ spec:
     #   name: synapse-secrets
     #   valuesKey: postgresPassword
     #   targetPath: postgresql.auth.password
-    - kind: ConfigMap
-      name: synapse-oidc-configuration
-      valuesKey: keycloakConfiguration
-      targetPath: extraSecrets.oidc_providers[0]
     - kind: Secret
       name: synapse-secrets
       valuesKey: keycloakClientSecret
       targetPath: extraSecrets.oidc_providers[0].client_secret
+    - kind: ConfigMap
+      name: synapse-oidc-configuration
+      valuesKey: keycloakConfiguration
+      targetPath: extraSecrets.oidc_providers[0]
