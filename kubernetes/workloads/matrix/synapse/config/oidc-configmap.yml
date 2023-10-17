@@ -3,7 +3,6 @@ kind: ConfigMap
 metadata:
   name: synapse-oidc-configuration
   namespace: matrix
-type: Opaque
 data:
   keycloakConfiguration: |-
     idp_id: keycloak
