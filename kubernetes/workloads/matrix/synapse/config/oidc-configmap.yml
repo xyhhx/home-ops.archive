@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oidc-configuration
+  namespace: matrix
+type: Opaque
+data:
+  keycloakConfiguration: |-
+    idp_id: keycloak
+    idp_name: "Keycloak"
+    issuer: "https://auth.ab.hor.rent/realms/homelab"
+    client_id: "synapse"
+    scopes:
+      - openid
+      - profile
+    user_mapping_provider:
+      config:
+        localpart_template: "{{ user.preferred_username }}"
+        display_name_template: "{{ user.name }}"
+    backchannel_logout_enabled: true
+    allow_existing_users: true
