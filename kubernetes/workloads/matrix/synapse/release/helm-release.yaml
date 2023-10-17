@@ -43,8 +43,10 @@ spec:
         org.matrix.msc3575.proxy:
           url: https://syncv3.ab.hor.rent
     signingKey:
-      existingSecret: synapse-signing-key
-      existingSecretKey: signingKey
+      job:
+        enabled: false
+      existingSecret: synapse-signingkey
+      existingSecretKey: signing.key
     ingress:
       traefikPaths: true
       annotations:
