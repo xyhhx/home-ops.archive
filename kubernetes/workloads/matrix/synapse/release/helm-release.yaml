@@ -64,10 +64,10 @@ spec:
       name: synapse-secrets
       valuesKey: registrationSharedSecret
       targetPath: config.registrationSharedSecret
-    - kind: Secret
-      name: synapse-secrets
-      valuesKey: postgresPassword
-      targetPath: postgresql.auth.password
+    # - kind: Secret
+    #   name: synapse-secrets
+    #   valuesKey: postgresPassword
+    #   targetPath: postgresql.auth.password
     - kind: Secret
       name: synapse-secrets
       valuesKey: keycloakClientSecret
