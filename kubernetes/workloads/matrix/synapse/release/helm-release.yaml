@@ -34,8 +34,8 @@ spec:
     signingKey:
       job:
         enabled: false
-      existingSecret: synapse-signingkey
-      existingSecretKey: signing.key
+      existingSecret: synapse-signing-key
+      existingSecretKey: signingKey
     ingress:
       traefikPaths: true
       annotations:
