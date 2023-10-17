@@ -4,7 +4,7 @@ metadata:
   name: synapse-oidc-configuration
   namespace: matrix
 data:
-  keycloakConfiguration: |-
+  keycloakConfiguration.yaml: |-
     idp_id: keycloak
     idp_name: "Keycloak"
     issuer: "https://auth.ab.hor.rent/realms/homelab"
