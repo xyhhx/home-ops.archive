@@ -18,10 +18,6 @@ spec:
   values:
     serverName: ab.hor.rent
     publicServerName: synapse.ab.hor.rent
-    extraConfig:
-      password_config:
-        enabled: false
-
     wellknown:
       enabled: true
       server:
