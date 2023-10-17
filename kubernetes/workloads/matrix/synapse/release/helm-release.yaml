@@ -32,12 +32,13 @@ spec:
     serverName: ab.hor.rent
     publicServerName: synapse.ab.hor.rent
     extraConfig:
+      password_config:
+        enabled: false
       oidc_providers:
         - idp_id: keycloak
           idp_name: "Keycloak"
           issuer: "https://auth.ab.hor.rent/realms/homelab"
           client_id: "synapse"
-          client_secret: "copy secret generated from above"
           scopes: ["openid", "profile"]
           user_mapping_provider:
             config:
