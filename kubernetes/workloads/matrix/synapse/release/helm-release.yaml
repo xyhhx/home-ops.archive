@@ -53,15 +53,7 @@ spec:
       name: synapse-secrets
       valuesKey: registrationSharedSecret
       targetPath: config.registrationSharedSecret
-    # - kind: Secret
-    #   name: synapse-secrets
-    #   valuesKey: postgresPassword
-    #   targetPath: postgresql.auth.password
-    # - kind: Secret
-    #   name: synapse-secrets
-    #   valuesKey: keycloakClientSecret
-    #   targetPath: extraSecrets.oidc_providers[0].client_secret
-    - kind: ConfigMap
+    - kind: Secret
       name: synapse-oidc-configuration
-      valuesKey: keycloakConfiguration.yaml
-      targetPath: extraSecrets.oidc_providers[0]
+      valuesKey: oidc-config.yaml
+      targetPath: extraSecrets
