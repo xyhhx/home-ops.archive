@@ -15,19 +15,6 @@ spec:
         name: ananace-charts
         namespace: flux-system
       interval: 1m
-  valuesFrom:
-    - kind: Secret
-      name: synapse-secrets
-      valuesKey: macaroonSecretKey
-      targetPath: config.macaroonSecretKey
-    - kind: Secret
-      name: synapse-secrets
-      valuesKey: registrationSharedSecret
-      targetPath: config.registrationSharedSecret
-    - kind: Secret
-      name: synapse-secrets
-      valuesKey: keycloakClientSecret
-      targetPath: extraConfig.oidc_providers[0].client_secret
   values:
     serverName: ab.hor.rent
     publicServerName: synapse.ab.hor.rent
@@ -66,3 +53,20 @@ spec:
         - hosts:
             - synapse.ab.hor.rent
           secretName: tls-synapse-ingress-http
+  valuesFrom:
+    - kind: Secret
+      name: synapse-secrets
+      valuesKey: macaroonSecretKey
+      targetPath: config.macaroonSecretKey
+    - kind: Secret
+      name: synapse-secrets
+      valuesKey: registrationSharedSecret
+      targetPath: config.registrationSharedSecret
+    - kind: Secret
+      name: synapse-secrets
+      valuesKey: postgresPassword
+      targetPath: postgresql.auth.password
+    - kind: Secret
+      name: synapse-secrets
+      valuesKey: keycloakClientSecret
+      targetPath: extraConfig.oidc_providers[0].client_secret
