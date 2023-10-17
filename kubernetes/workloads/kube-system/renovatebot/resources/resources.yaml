@@ -43,7 +43,7 @@ spec:
                   name: token-vol
           containers:
             - name: renovate
-              image: renovate/renovate:37.23.0
+              image: renovate/renovate:37.26.1
               command:
                 - /bin/sh
               args:
