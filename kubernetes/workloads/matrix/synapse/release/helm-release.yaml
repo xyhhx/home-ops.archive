@@ -1,4 +1,21 @@
 ---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: oidc-config
+  namespace: matrix
+data:
+  idp_id: keycloak
+  idp_name: "Keycloak"
+  issuer: "https://keycloakurl/realms/homelab"
+  client_id: "synapse"
+  backchannel_logout_enabled: "true"
+  allow_existing_users: "true"
+  user_mapping_provider_localpart_template: "{{ user\\.preferred_username }}"
+  user_mapping_provider_display_name_template: "{{ user\\.name }}"
+  scopes_0: "openid"
+  scopes_1: "profile"
+---
 apiVersion: helm.toolkit.fluxcd.io/v2beta1
 kind: HelmRelease
 metadata:
@@ -40,19 +57,6 @@ spec:
         - hosts:
             - synapse.ab.hor.rent
           secretName: tls-synapse-ingress-http
-    extraConfig:
-      oidc_providers:
-        - idp_id: keycloak
-          idp_name: "Keycloak"
-          issuer: "https://auth.ab.hor.rent/realms/homelab"
-          client_id: "synapse"
-          scopes: ["openid", "profile"]
-          user_mapping_provider:
-            config:
-              localpart_template: "{{ user.preferred_username }}"
-              display_name_template: "{{ user.name }}"
-          backchannel_logout_enabled: true
-          allow_existing_users: true
   valuesFrom:
     - kind: Secret
       name: synapse-secrets
@@ -65,4 +69,44 @@ spec:
     - kind: Secret
       name: synapse-secrets
       valuesKey: keycloakClientSecret
-      targetPath: extraConfig.oidc_providers[0].client_secret
+      targetPath: extraSecrets.oidc_providers[0].client_secret
+    - kind: ConfigMap
+      name: oidc-config
+      valuesKey: idp_id
+      targetPath: extraSecrets.oidc_providers[0].idp_id
+    - kind: ConfigMap
+      name: oidc-config
+      valuesKey: idp_name
+      targetPath: extraSecrets.oidc_providers[0].idp_name
+    - kind: ConfigMap
+      name: oidc-config
+      valuesKey: issuer
+      targetPath: extraSecrets.oidc_providers[0].issuer
+    - kind: ConfigMap
+      name: oidc-config
+      valuesKey: client_id
+      targetPath: extraSecrets.oidc_providers[0].client_id
+    - kind: ConfigMap
+      name: oidc-config
+      valuesKey: backchannel_logout_enabled
+      targetPath: extraSecrets.oidc_providers[0].backchannel_logout_enabled
+    - kind: ConfigMap
+      name: oidc-config
+      valuesKey: allow_existing_users
+      targetPath: extraSecrets.oidc_providers[0].allow_existing_users
+    - kind: ConfigMap
+      name: oidc-config
+      valuesKey: user_mapping_provider_localpart_template
+      targetPath: extraSecrets.oidc_providers[0].user_mapping_provider.config.localpart_template
+    - kind: ConfigMap
+      name: oidc-config
+      valuesKey: user_mapping_provider_display_name_template
+      targetPath: extraSecrets.oidc_providers[0].user_mapping_provider.config.display_name_template
+    - kind: ConfigMap
+      name: oidc-config
+      valuesKey: scopes_0
+      targetPath: extraSecrets.oidc_providers[0].scopes[0]
+    - kind: ConfigMap
+      name: oidc-config
+      valuesKey: scopes_1
+      targetPath: extraSecrets.oidc_providers[0].scopes[1]
