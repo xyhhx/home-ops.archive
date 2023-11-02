@@ -27,6 +27,15 @@ spec:
           base_url: https://synapse.ab.hor.rent
         org.matrix.msc3575.proxy:
           url: https://syncv3.ab.hor.rent
+    extraConfig:
+      ip_range_blacklist:
+        - "0.0.0.0/0"
+        - "::/0"
+      limit_remote_rooms:
+        enabled: true
+        complexity: 0.5
+        complexity_error: "Room is too annoying."
+      max_avatar_size: 25M
     synapse:
       extraVolumeMounts:
         - name: oidc-configuration
