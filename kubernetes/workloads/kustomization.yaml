@@ -10,7 +10,7 @@ resources:
   - flux-system
   - kube-system
   - keycloak
-  - dev-environment
+  # - dev-environment
   - nextcloud
   - collabora
   - media
