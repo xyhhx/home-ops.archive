@@ -28,9 +28,6 @@ spec:
         org.matrix.msc3575.proxy:
           url: https://syncv3.ab.hor.rent
     extraConfig:
-      ip_range_blacklist:
-        - "0.0.0.0/0"
-        - "::/0"
       limit_remote_rooms:
         enabled: true
         complexity: 0.5
