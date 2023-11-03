@@ -78,9 +78,12 @@ spec:
             initialDelaySeconds: 10
             periodSeconds: 10
           resources:
+            requests:
+              memory: "32Mi"
+              cpu: "25m"
             limits:
               memory: "10Mi"
-              cpu: "0.5"
+              cpu: "50m"
           ports:
             - name: http
               containerPort: 4181

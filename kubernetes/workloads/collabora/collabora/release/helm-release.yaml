@@ -28,8 +28,8 @@ spec:
         passwordKey: password
     resources:
       limits:
-        cpu: 2
-        memory: 2.5Gi
+        cpu: "2"
+        memory: "2.5Gi"
       requests:
-        cpu: 1
-        memory: 1Gi
+        cpu: "1"
+        memory: "1Gi"
