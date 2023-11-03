@@ -26,3 +26,10 @@ spec:
         secretName: collabora-credentials
         usernameKey: username
         passwordKey: password
+    resources:
+      limits:
+        cpu: 2
+        memory: 2.5Gi
+      requests:
+        cpu: 1
+        memory: 1Gi
