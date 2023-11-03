@@ -5,7 +5,7 @@ metadata:
   namespace: matrix
 spec:
   hard:
-    requests.cpu: "1"
-    requests.memory: 1Gi
-    limits.cpu: "2"
-    limits.memory: 2Gi
+    requests.cpu: "2"
+    requests.memory: 4.5Gi
+    limits.cpu: "4"
+    limits.memory: 9Gi
