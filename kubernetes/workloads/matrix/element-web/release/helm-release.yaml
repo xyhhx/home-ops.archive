@@ -59,3 +59,11 @@ spec:
         - secretName: tls-element-ingress-http
           hosts:
             - element.ab.hor.rent
+
+    resources:
+      limits:
+        cpu: "1"
+        memory: "1Gi"
+      requests:
+        cpu: "500m"
+        memory: "512Mi"
