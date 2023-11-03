@@ -30,6 +30,12 @@ spec:
         - name: calibre
           image: lscr.io/linuxserver/calibre:v6.23.0-ls231
           resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
           ports:
             - name: guac
               containerPort: 8080
@@ -43,6 +49,13 @@ spec:
               subPath: Books
         - name: calibre-web
           image: lscr.io/linuxserver/calibre-web:0.6.20-ls221
+          resources:
+            requests:
+              memory: "64Mi"
+              cpu: "250m"
+            limits:
+              memory: "128Mi"
+              cpu: "500m"
           ports:
             - name: web
               containerPort: 8083

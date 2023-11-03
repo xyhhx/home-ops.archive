@@ -33,3 +33,10 @@ spec:
       media:
         enabled: true
         existingClaim: media-nfs
+    resources:
+      limits:
+        cpu: "2"
+        memory: "6Gi"
+      requests:
+        cpu: "1"
+        memory: "2Gi"
