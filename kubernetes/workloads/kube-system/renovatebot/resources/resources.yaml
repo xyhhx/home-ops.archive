@@ -18,7 +18,7 @@ metadata:
   name: renovate
   namespace: kube-system
 spec:
-  schedule: '@hourly'
+  schedule: "@hourly"
   concurrencyPolicy: Forbid
   jobTemplate:
     spec:
@@ -28,15 +28,15 @@ spec:
             - name: secrets-init
               image: ghcr.io/xyhhx/init-gh-token:main
               env:
-                - name:  APP_ID
+                - name: APP_ID
                   valueFrom:
                     secretKeyRef:
-                      name:  renovate-env
+                      name: renovate-env
                       key: RENOVATE_GH_APP_ID
-                - name:  PRIVATE_KEY
+                - name: PRIVATE_KEY
                   valueFrom:
                     secretKeyRef:
-                      name:  renovate-env
+                      name: renovate-env
                       key: RENOVATE_GH_APP_PRIVATE_KEY
               volumeMounts:
                 - mountPath: /mnt
@@ -58,8 +58,12 @@ spec:
                 - secretRef:
                     name: renovate-env
               resources:
+                requests:
+                  memory: "128Mi"
+                  cpu: "250m"
                 limits:
-                  memory: "2G"
+                  memory: "2Gi"
+                  cpu: "1"
               volumeMounts:
                 - name: config-volume
                   mountPath: /opt/renovate/

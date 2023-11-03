@@ -46,6 +46,14 @@ spec:
         - name: oidc-configuration
           secret:
             secretName: synapse-oidc-configuration
+      resources:
+        limits:
+          cpu: "2"
+          memory: "8Gi"
+        requests:
+          cpu: "1"
+          memory: "2.5Gi"
+
     signingKey:
       job:
         enabled: false
@@ -59,6 +67,7 @@ spec:
         - hosts:
             - synapse.ab.hor.rent
           secretName: tls-synapse-ingress-http
+
   valuesFrom:
     - kind: Secret
       name: synapse-secrets

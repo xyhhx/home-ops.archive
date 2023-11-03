@@ -25,7 +25,7 @@ spec:
       valuesKey: databasePassword
       targetPath: postgresql.auth.password
   values:
-    matrixServer: 'https://synapse.ab.hor.rent'
+    matrixServer: "https://synapse.ab.hor.rent"
     postgresql:
       sslmode: disable
     ingress:
@@ -39,4 +39,10 @@ spec:
         - hosts:
             - syncv3.ab.hor.rent
           secretName: tls-syncv3-synapse-ingress-http
-
+    resources:
+      limits:
+        cpu: "200m"
+        memory: "512Mi"
+      requests:
+        cpu: "100m"
+        memory: "128Mi"
