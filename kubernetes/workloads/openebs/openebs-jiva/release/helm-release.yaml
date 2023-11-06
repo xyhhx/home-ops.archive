@@ -18,30 +18,6 @@ spec:
   values:
     storageClass:
       isDefaultClass: true
-    jivaOperator:
-      resources:
-        limits:
-          cpu: "250m"
-          memory: "512Mi"
-        requests:
-          cpu: "100m"
-          memory: "100Mi"
-    csiController:
-      resources:
-        limits:
-          cpu: "250m"
-          memory: "512Mi"
-        requests:
-          cpu: "100m"
-          memory: "100Mi"
-    csiNode:
-      resources:
-        limits:
-          cpu: "250m"
-          memory: "512Mi"
-        requests:
-          cpu: "100m"
-          memory: "100Mi"
   postRenderers:
     - kustomize:
         patchesStrategicMerge:
