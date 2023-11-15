@@ -35,7 +35,7 @@ spec:
         existingClaim: media-nfs
     resources:
       limits:
-        cpu: "2"
+        cpu: "1"
         memory: "8Gi"
       requests:
         cpu: "500m"
