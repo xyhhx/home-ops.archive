@@ -45,7 +45,7 @@ spec:
             secretName: synapse-oidc-configuration
       resources:
         limits:
-          cpu: "2"
+          cpu: "3"
           memory: "8Gi"
         requests:
           cpu: "1"
