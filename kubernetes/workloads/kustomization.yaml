@@ -9,6 +9,7 @@ resources:
   - cert-manager
   - flux-system
   - kube-system
+  - ldap
   - keycloak
   # - dev-environment
   - nextcloud

@@ -1,0 +1,39 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: lldap-credentials
+  namespace: flux-system
+spec:
+  path: ./namespaces/ldap
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: workload-secrets
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: lldap-deployment
+  namespace: flux-system
+spec:
+  path: ./kubernetes/workloads/ldap/lldap/resources
+  prune: false
+  dependsOn:
+    - name: lldap-credentials
+    - name: openebs-jiva-config
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
