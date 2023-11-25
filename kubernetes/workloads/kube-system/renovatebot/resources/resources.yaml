@@ -12,10 +12,9 @@ data:
       "gitAuthor": "frenovate[bot] <146583444+frenovate[bot]@users.noreply.github.com>",
       "kubernetes": {
         "fileMatch": [
-          "^kubernetes/.*resources.yaml",
-          "^kubernetes/.*config.yaml",
-          "^kubernetes/.*kustomization.yaml",
-          "^kubernetes/.*helm-release.yaml"
+          "^kubernetes/workloads/.*resources.yaml",
+          "^kubernetes/workloads/.*ks.yaml",
+          "^kubernetes/workloads/.*helm-release.yaml"
         ]
       },
       "packageRules": [
