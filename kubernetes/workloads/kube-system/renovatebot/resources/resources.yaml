@@ -7,8 +7,24 @@ metadata:
 data:
   config.json: |-
     {
+      "$schema": "https://docs.renovatebot.com/renovate-schema.json",
       "username": "frenovate[bot]",
-      "gitAuthor": "frenovate[bot] <146583444+frenovate[bot]@users.noreply.github.com>"
+      "gitAuthor": "frenovate[bot] <146583444+frenovate[bot]@users.noreply.github.com>",
+      "kubernetes": {
+        "fileMatch": [
+          "^kubernetes/.*resources.yaml",
+          "^kubernetes/.*config.yaml",
+          "^kubernetes/.*kustomization.yaml",
+          "^kubernetes/.*helm-release.yaml"
+        ]
+      },
+      "packageRules": [
+        {
+          "matchUpdateTypes": ["minor", "patch"],
+          "matchCurrentVersion": "!/^0/",
+          "automerge": true
+        }
+      ]
     }
 
 ---
