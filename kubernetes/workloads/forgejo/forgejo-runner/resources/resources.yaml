@@ -31,7 +31,13 @@ spec:
           image: code.forgejo.org/forgejo/runner:3.2.0
           command:
             [
-              "forgejo-runner create-runner-file --instance $FORGEJO_INSTANCE_URL --secret $RUNNER_SECRET --connect",
+              "forgejo-runner",
+              "create-runner-file",
+              "--instance",
+              "$(FORGEJO_INSTANCE_URL)",
+              "--secret",
+              "$(RUNNER_SECRET)",
+              "--connect",
             ]
           env:
             - name: RUNNER_SECRET
