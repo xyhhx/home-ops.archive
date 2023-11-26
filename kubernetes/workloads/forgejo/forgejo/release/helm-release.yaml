@@ -16,6 +16,8 @@ spec:
         namespace: flux-system
       interval: 1m
   values:
+    image:
+      tag: "1.20.5-1"
     redis-cluster:
       enabled: false
     postgresql:
