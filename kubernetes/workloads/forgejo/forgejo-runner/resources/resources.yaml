@@ -8,7 +8,7 @@ metadata:
   namespace: forgejo
 spec:
   # Two replicas means that if one is busy, the other can pick up jobs.
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: forgejo-runner
