@@ -1,4 +1,30 @@
 ---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: forgejo-runner-pvc-docker
+  namespace: forgejo
+spec:
+  storageClassName: openebs-jiva-csi-default
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi
+---
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: forgejo-runner-pvc-data
+  namespace: forgejo
+spec:
+  storageClassName: openebs-jiva-csi-default
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 8Gi
+---
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -21,9 +47,11 @@ spec:
       restartPolicy: Always
       volumes:
         - name: docker-certs
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: forgejo-runner-pvc-docker
         - name: runner-data
-          emptyDir: {}
+          persistentVolumeClaim:
+            claimName: forgejo-runner-pvc-data
       # Initialise our configuration file using offline registration
       # https://forgejo.org/docs/v1.21/admin/actions/#offline-registration
       initContainers:
