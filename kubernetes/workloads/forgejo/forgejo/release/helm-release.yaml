@@ -31,6 +31,7 @@ spec:
         APP_NAME: "Abhorrent forgejo"
         actions:
           ENABLED: true
+          DEFAULT_ACTIONS_URL: https://code.forgejo.org
         service:
           DISABLE_REGISTRATION: true
         server:
