@@ -28,7 +28,7 @@ spec:
       # https://forgejo.org/docs/v1.21/admin/actions/#offline-registration
       initContainers:
         - name: runner-config-generation
-          image: code.forgejo.org/forgejo/runner:3.0.0
+          image: code.forgejo.org/forgejo/runner:3.2.0
           command:
             [
               "forgejo-runner create-runner-file --instance $FORGEJO_INSTANCE_URL --secret $RUNNER_SECRET --connect",
@@ -46,7 +46,7 @@ spec:
               mountPath: /data
       containers:
         - name: runner
-          image: code.forgejo.org/forgejo/runner:3.0.0
+          image: code.forgejo.org/forgejo/runner:3.2.0
           command:
             [
               "sh",
