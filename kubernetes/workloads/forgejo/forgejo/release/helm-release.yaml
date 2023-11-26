@@ -27,6 +27,8 @@ spec:
     gitea:
       config:
         APP_NAME: "Abhorrent forgejo"
+        actions:
+          ENABLED: true
         service:
           DISABLE_REGISTRATION: true
         server:
