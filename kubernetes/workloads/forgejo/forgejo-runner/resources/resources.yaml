@@ -33,7 +33,7 @@ spec:
             - "--token"
             - $(RUNNER_SECRET)
             - "--name"
-            - runner
+            - "runner-$(openssl rand -hex 3)"
             - "--instance"
             - $(FORGEJO_INSTANCE_URL)
           env:
