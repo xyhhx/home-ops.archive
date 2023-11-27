@@ -59,7 +59,10 @@ spec:
           existingSecret: forgejo-oauth-secret
           autoDiscoverUrl: "https://auth.ab.hor.rent/realms/homelab/.well-known/openid-configuration/"
           skipLocal2fa: true
-
+      signing:
+        enabled: true
+        gpgHome: /data/git/.gnupg
+        existingSecret: forgejo-signing-key
       additionalConfigFromEnvs:
         - name: GITEA__DATABASE__PASSWD
           valueFrom:
