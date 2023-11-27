@@ -24,18 +24,18 @@ spec:
         - name: runner-data
           emptyDir: {}
       initContainers:
-        - name: runner-config-generation
+        - name: runner-register
           image: code.forgejo.org/forgejo/runner:3.2.0
           command:
-            [
-              "forgejo-runner",
-              "create-runner-file",
-              "--instance",
-              "$(FORGEJO_INSTANCE_URL)",
-              "--secret",
-              "$(RUNNER_SECRET)",
-              "--connect",
-            ]
+            - forgejo-runner
+            - register
+            - "--no-interactive"
+            - "--token"
+            - $(RUNNER_SECRET)
+            - "--name"
+            - runner
+            - "--instance"
+            - $(FORGEJO_INSTANCE_URL)
           env:
             - name: RUNNER_SECRET
               valueFrom:
@@ -44,6 +44,10 @@ spec:
                   key: token
             - name: FORGEJO_INSTANCE_URL
               value: http://forgejo-http.forgejo.svc.cluster.local:3000
+          resources:
+            limits:
+              cpu: "0.50"
+              memory: "64Mi"
           volumeMounts:
             - name: runner-data
               mountPath: /data
