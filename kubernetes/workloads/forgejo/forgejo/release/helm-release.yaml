@@ -50,9 +50,7 @@ spec:
         oauth2_client:
           ENABLE_AUTO_REGISTRATION: true
         repository.signing:
-          SIGNING_KEY: 5A731D270B71828DDD7F16B2E1686688FA8DAE64
-          SIGNING_NAME: forgejo.ab.hor.rent
-          SIGNING_EMAIL:
+          SIGNING_KEY: default
           INITIAL_COMMIT: always
           CRUD_ACTIONS: pubkey, twofa, parentsigned
           WIKI: never
@@ -67,7 +65,6 @@ spec:
           skipLocal2fa: true
       signing:
         enabled: true
-        gpgHome: /data/home/.gnupg
         existingSecret: forgejo-signing-key
       additionalConfigFromEnvs:
         - name: GITEA__DATABASE__PASSWD
