@@ -17,7 +17,7 @@ spec:
       interval: 1m
   values:
     image:
-      tag: "1.20.5-1"
+      tag: "1.21.1-0"
     redis-cluster:
       enabled: false
     postgresql:
