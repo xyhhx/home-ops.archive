@@ -7,7 +7,6 @@ metadata:
   name: forgejo-runner
   namespace: forgejo
 spec:
-  # Two replicas means that if one is busy, the other can pick up jobs.
   replicas: 1
   selector:
     matchLabels:
@@ -24,8 +23,6 @@ spec:
           emptyDir: {}
         - name: runner-data
           emptyDir: {}
-      # Initialise our configuration file using offline registration
-      # https://forgejo.org/docs/v1.21/admin/actions/#offline-registration
       initContainers:
         - name: runner-config-generation
           image: code.forgejo.org/forgejo/runner:3.2.0
