@@ -51,6 +51,14 @@ spec:
           TYPE: level
         oauth2_client:
           ENABLE_AUTO_REGISTRATION: true
+        repository.signing:
+          SIGNING_KEY: default
+          SIGNING_NAME: forgejo.ab.hor.rent
+          SIGNING_EMAIL:
+          INITIAL_COMMIT: always
+          CRUD_ACTIONS: pubkey, twofa, parentsigned
+          WIKI: never
+          MERGES: pubkey, twofa, basesigned, commitssigned
       admin:
         existingSecret: forgejo-admin-secret
       oauth:
