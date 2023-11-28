@@ -6,6 +6,7 @@ resources:
   - bitnami.yaml
   - chrisingenhaag.yaml
   - gitea.yaml
+  - forgejo.yaml
   - jetstack.yaml
   - k8s-at-home.yaml
   - metallb.yaml

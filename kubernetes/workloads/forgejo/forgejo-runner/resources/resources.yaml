@@ -1,0 +1,98 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: forgejo-runner
+  name: forgejo-runner
+  namespace: forgejo
+spec:
+  replicas: 4
+  selector:
+    matchLabels:
+      app: forgejo-runner
+  strategy: {}
+  template:
+    metadata:
+      labels:
+        app: forgejo-runner
+    spec:
+      restartPolicy: Always
+      volumes:
+        - name: docker-certs
+          emptyDir: {}
+        - name: runner-data
+          emptyDir: {}
+      initContainers:
+        - name: runner-register
+          image: code.forgejo.org/forgejo/runner:3.2.0
+          command:
+            - forgejo-runner
+            - register
+            - "--no-interactive"
+            - "--token"
+            - $(RUNNER_SECRET)
+            - "--name"
+            - "runner"
+            - "--instance"
+            - $(FORGEJO_INSTANCE_URL)
+          env:
+            - name: RUNNER_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: forgejo-runner-secret
+                  key: token
+            - name: FORGEJO_INSTANCE_URL
+              value: http://forgejo-http.forgejo.svc.cluster.local:3000
+          resources:
+            limits:
+              cpu: "0.50"
+              memory: "64Mi"
+          volumeMounts:
+            - name: runner-data
+              mountPath: /data
+      containers:
+        - name: runner
+          image: code.forgejo.org/forgejo/runner:3.2.0
+          command:
+            [
+              "sh",
+              "-c",
+              "while ! nc -z localhost 2376 </dev/null; do echo 'waiting for docker daemon...'; sleep 5; done; forgejo-runner daemon",
+            ]
+          env:
+            - name: DOCKER_HOST
+              value: tcp://localhost:2376
+            - name: DOCKER_CERT_PATH
+              value: /certs/client
+            - name: DOCKER_TLS_VERIFY
+              value: "1"
+          volumeMounts:
+            - name: docker-certs
+              mountPath: /certs
+            - name: runner-data
+              mountPath: /data
+          resources:
+            requests:
+              cpu: "0.5"
+              memory: "128Mi"
+            limits:
+              cpu: "2"
+              memory: "2Gi"
+        - name: daemon
+          image: docker:23.0.6-dind
+          env:
+            - name: DOCKER_TLS_CERTDIR
+              value: /certs
+          securityContext:
+            privileged: true
+          volumeMounts:
+            - name: docker-certs
+              mountPath: /certs
+          resources:
+            requests:
+              cpu: "0.5"
+              memory: "128Mi"
+            limits:
+              cpu: "2"
+              memory: "2Gi"

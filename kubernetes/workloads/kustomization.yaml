@@ -11,7 +11,7 @@ resources:
   - kube-system
   - ldap
   - keycloak
-  # - dev-environment
+  - forgejo
   - nextcloud
   - collabora
   - media

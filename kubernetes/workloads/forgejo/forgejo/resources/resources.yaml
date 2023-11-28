@@ -2,23 +2,23 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: gitea
-  namespace: dev-environment
+  name: forgejo
+  namespace: forgejo
   annotations:
     cert-manager.io/cluster-issuer: "letsencrypt-prod"
 spec:
   tls:
     - hosts:
-        - gitea.ab.hor.rent
-      secretName: tls-gitea-ingress-http
+        - forgejo.ab.hor.rent
+      secretName: tls-forgejo-ingress-http
   rules:
-    - host: gitea.ab.hor.rent
+    - host: forgejo.ab.hor.rent
       http:
         paths:
           - path: /
             pathType: Prefix
             backend:
               service:
-                name: gitea-http
+                name: forgejo-http
                 port:
                   number: 3000
