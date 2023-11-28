@@ -31,9 +31,8 @@ The live directory structure looks like so:
         📁 ─ cert-manager
         📁 ─ collabora
         📁 ─ default
-        📁 ─ dev-environment
-        📁 ─ example
         📁 ─ flux-system
+        📁 ─ forgejo
         📁 ─ keycloak
         📁 ─ kube-system
         📁 ─ matrix
