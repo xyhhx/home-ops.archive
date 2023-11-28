@@ -33,10 +33,14 @@ spec:
             - "--token"
             - $(RUNNER_SECRET)
             - "--name"
-            - "runner"
+            - "$(RUNNER_NAME)"
             - "--instance"
             - $(FORGEJO_INSTANCE_URL)
           env:
+            - name: RUNNER_NAME
+              valueFrom:
+                fieldRef:
+                  fieldPath: metadata.name
             - name: RUNNER_SECRET
               valueFrom:
                 secretKeyRef:
