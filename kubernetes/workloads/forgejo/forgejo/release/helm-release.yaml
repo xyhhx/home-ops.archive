@@ -75,3 +75,6 @@ spec:
             secretKeyRef:
               name: postgres-secrets
               key: password
+    service:
+      ssh:
+        hostPort: 30022
