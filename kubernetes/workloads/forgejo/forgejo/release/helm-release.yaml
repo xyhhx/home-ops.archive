@@ -78,21 +78,21 @@ spec:
     service:
       ssh:
         hostPort: 30022
-    ingress:
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: "letsencrypt-prod"
-      tls:
-        - hosts:
-            - forgejo.ab.hor.rent
-          secretName: tls-forgejo-ingress-http
-      hosts:
-        - host: forgejo.ab.hor.rent
-          paths:
-            - path: /
-              pathType: Prefix
-              backend:
-                service:
-                  name: forgejo-http
-                  port:
-                    number: 3000
+    # ingress:
+    #   enabled: true
+    #   annotations:
+    #     cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    #   tls:
+    #     - hosts:
+    #         - forgejo.ab.hor.rent
+    #       secretName: tls-forgejo-ingress-http
+    #   hosts:
+    #     - host: forgejo.ab.hor.rent
+    #       paths:
+    #         - path: /
+    #           pathType: Prefix
+    #           backend:
+    #             service:
+    #               name: forgejo-http
+    #               port:
+    #                 number: 3000
