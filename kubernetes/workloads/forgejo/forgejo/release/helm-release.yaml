@@ -47,6 +47,8 @@ spec:
           PROVIDER: redis-cluster
         cache:
           ADAPTER: redis-cluster
+          ENABLED: true
+          HOST: redis+cluster://:macaron@redis-cluster.forgejo.svc.cluster.local:6379/0?pool_size=100&idle_timeout=180s
         queue:
           TYPE: level
         oauth2_client:
