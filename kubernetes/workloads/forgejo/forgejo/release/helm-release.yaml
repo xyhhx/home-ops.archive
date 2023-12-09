@@ -52,7 +52,7 @@ spec:
         repository:
           DEFAULT_REPO_UNITS: repo.code,repo.releases,repo.issues,repo.pulls,repo.wiki,repo.projects,repo.packages,repo.actions
         repository.signing:
-          SIGNING_KEY: default
+          SIGNING_KEY: E1686688FA8DAE64
           INITIAL_COMMIT: always
           CRUD_ACTIONS: pubkey, twofa, parentsigned
           WIKI: never
@@ -65,16 +65,16 @@ spec:
           existingSecret: forgejo-oauth-secret
           autoDiscoverUrl: "https://auth.ab.hor.rent/realms/homelab/.well-known/openid-configuration/"
           skipLocal2fa: true
-      signing:
-        enabled: true
-        gpgHome: /data/git/.gnupg
-        existingSecret: forgejo-signing-key
       additionalConfigFromEnvs:
         - name: GITEA__DATABASE__PASSWD
           valueFrom:
             secretKeyRef:
               name: postgres-secrets
               key: password
+    signing:
+      enabled: true
+      gpgHome: /data/git/.gnupg
+      existingSecret: forgejo-signing-key
     service:
       ssh:
         hostPort: 30022
