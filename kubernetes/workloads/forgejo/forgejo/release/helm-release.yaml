@@ -20,6 +20,8 @@ spec:
       tag: "1.21.1-0"
     redis-cluster:
       enabled: true
+      nodes: 6
+      replicas: 1
     postgresql:
       enabled: false
     postgresql-ha:
@@ -43,6 +45,8 @@ spec:
           USER: forgejo
         session:
           PROVIDER: memory
+        cache:
+          ADAPTER: redis-cluster
         queue:
           TYPE: level
         oauth2_client:
