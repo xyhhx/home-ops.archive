@@ -67,7 +67,7 @@ spec:
           skipLocal2fa: true
       signing:
         enabled: true
-        gpgHome: /data/home/.gnupg
+        gpgHome: /data/git/.gnupg
         existingSecret: forgejo-signing-key
       additionalConfigFromEnvs:
         - name: GITEA__DATABASE__PASSWD
