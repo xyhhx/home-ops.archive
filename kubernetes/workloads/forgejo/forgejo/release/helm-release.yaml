@@ -52,7 +52,7 @@ spec:
         repository:
           DEFAULT_REPO_UNITS: repo.code,repo.releases,repo.issues,repo.pulls,repo.wiki,repo.projects,repo.packages,repo.actions
         repository.signing:
-          SIGNING_KEY: default
+          SIGNING_KEY: 5A731D270B71828DDD7F16B2E1686688FA8DAE64
           INITIAL_COMMIT: always
           CRUD_ACTIONS: pubkey, twofa, parentsigned
           WIKI: never
@@ -67,7 +67,7 @@ spec:
           skipLocal2fa: true
       signing:
         enabled: true
-        gpgHome: /data/git/.gnupg
+        gpgHome: /data/home/.gnupg
         existingSecret: forgejo-signing-key
       additionalConfigFromEnvs:
         - name: GITEA__DATABASE__PASSWD
