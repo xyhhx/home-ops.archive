@@ -52,7 +52,6 @@ spec:
         repository:
           DEFAULT_REPO_UNITS: repo.code,repo.releases,repo.issues,repo.pulls,repo.wiki,repo.projects,repo.packages,repo.actions
         repository.signing:
-          SIGNING_KEY: E1686688FA8DAE64
           INITIAL_COMMIT: always
           CRUD_ACTIONS: pubkey, twofa, parentsigned
           WIKI: never
@@ -71,6 +70,11 @@ spec:
             secretKeyRef:
               name: postgres-secrets
               key: password
+        - name: GITEA__REPOSITORY_SIGNING__SIGNING_KEY
+          valueFrom:
+            secretKeyRef:
+              name: forgejo-signing-key-fingerprint
+              key: fingerprint
     signing:
       enabled: true
       gpgHome: /data/git/.gnupg
