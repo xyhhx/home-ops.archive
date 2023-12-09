@@ -44,7 +44,7 @@ spec:
           NAME: forgejo
           USER: forgejo
         session:
-          PROVIDER: memory
+          PROVIDER: redis-cluster
         cache:
           ADAPTER: redis-cluster
         queue:
