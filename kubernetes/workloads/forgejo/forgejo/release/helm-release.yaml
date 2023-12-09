@@ -54,7 +54,7 @@ spec:
         repository.signing:
           SIGNING_KEY: 5A731D270B71828DDD7F16B2E1686688FA8DAE64
           INITIAL_COMMIT: always
-          CRUD_ACTIONS: pubkey, twofa, parentsigned
+          CRUD_ACTIONS: always
           WIKI: never
           MERGES: pubkey, twofa, basesigned, commitssigned
       admin:
