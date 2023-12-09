@@ -19,7 +19,7 @@ spec:
     image:
       tag: "1.21.1-0"
     redis-cluster:
-      enabled: false
+      enabled: true
     postgresql:
       enabled: false
     postgresql-ha:
@@ -43,8 +43,6 @@ spec:
           USER: forgejo
         session:
           PROVIDER: memory
-        cache:
-          ADAPTER: memory
         queue:
           TYPE: level
         oauth2_client:
