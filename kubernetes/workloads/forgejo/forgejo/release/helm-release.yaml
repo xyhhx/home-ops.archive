@@ -36,7 +36,6 @@ spec:
           ROOT_URL: "https://forgejo.ab.hor.rent"
           DOMAIN: "forgejo.ab.hor.rent"
           SSH_DOMAIN: "forgejo.ab.hor.rent"
-          SSH_PORT: 30022
         database:
           DB_TYPE: postgres
           HOST: postgresql-forgejo.forgejo.svc.cluster.local:5432
