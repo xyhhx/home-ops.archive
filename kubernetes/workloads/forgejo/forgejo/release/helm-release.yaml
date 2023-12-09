@@ -82,7 +82,11 @@ spec:
     ingress:
       enabled: true
       annotations:
-        external-dns.alpha.kubernetes.io/target: ingress.${SECRET_DOMAIN}
+        cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      tls:
+        - hosts:
+            - forgejo.ab.hor.rent
+          secretName: tls-forgejo-ingress-http
       hosts:
         - host: forgejo.ab.hor.rent
           paths:
@@ -93,7 +97,3 @@ spec:
                   name: forgejo-http
                   port:
                     number: 3000
-      tls:
-        - hosts:
-            - forgejo.ab.hor.rent
-          secretName: tls-forgejo-ingress-http
