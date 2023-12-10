@@ -25,7 +25,7 @@ spec:
           emptyDir: {}
       initContainers:
         - name: runner-register
-          image: code.forgejo.org/forgejo/runner:3.2.0
+          image: code.forgejo.org/forgejo/runner:3.3.0
           command:
             - forgejo-runner
             - register
@@ -57,7 +57,7 @@ spec:
               mountPath: /data
       containers:
         - name: runner
-          image: code.forgejo.org/forgejo/runner:3.2.0
+          image: code.forgejo.org/forgejo/runner:3.3.0
           command:
             [
               "sh",
