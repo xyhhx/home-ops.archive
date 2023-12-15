@@ -30,7 +30,7 @@ spec:
     extraConfig:
       limit_remote_rooms:
         enabled: true
-        complexity: 0.75
+        complexity: 1
         complexity_error: "Room is too annoying."
       max_avatar_size: 25M
     synapse:
