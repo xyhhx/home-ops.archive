@@ -15,6 +15,11 @@ spec:
         name: forgejo
         namespace: flux-system
       interval: 1m
+  valuesFrom:
+    - kind: Secret
+      name: forgejo-signing-key-fpr
+      valuesKey: fingerprint
+      targetPath: "gitea.config.repository\\.signing.SIGNING_KEY"
   values:
     image:
       tag: "1.21.1-0"
@@ -55,7 +60,6 @@ spec:
         repository:
           DEFAULT_REPO_UNITS: repo.code,repo.releases,repo.issues,repo.pulls,repo.wiki,repo.projects,repo.packages,repo.actions
         repository.signing:
-          SIGNING_KEY: E1686688FA8DAE64
           INITIAL_COMMIT: always
           CRUD_ACTIONS: pubkey, twofa, parentsigned
           WIKI: never
