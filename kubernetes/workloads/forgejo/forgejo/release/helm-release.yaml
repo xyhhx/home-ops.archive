@@ -41,7 +41,6 @@ spec:
           ROOT_URL: "https://forgejo.ab.hor.rent"
           DOMAIN: "forgejo.ab.hor.rent"
           SSH_DOMAIN: "forgejo.ab.hor.rent"
-          SSH_PORT: 30022
         ui:
           THEMES: "forgejo-auto,forgejo-light,forgejo-dark,auto,gitea,arc-green,pitch-black"
           DEFAULT_THEME: "pitch-black"
