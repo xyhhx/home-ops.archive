@@ -42,7 +42,7 @@ spec:
           DOMAIN: "forgejo.ab.hor.rent"
           SSH_DOMAIN: "forgejo.ab.hor.rent"
           SSH_PORT: 30022
-          SSH_LISTEN_PORT: 22
+          # SSH_LISTEN_PORT: 22
         ui:
           THEMES: "forgejo-auto,forgejo-light,forgejo-dark,auto,gitea,arc-green,pitch-black"
           DEFAULT_THEME: "pitch-black"
@@ -94,26 +94,27 @@ spec:
       existingSecret: forgejo-signing-key
     service:
       http:
-        type: LoadBalancer
-        loadBalancerIP: 10.69.0.13
-        clusterIP:
-        annotations:
-          metallb.universe.tf/allow-shared-ips: forgejo-10.69.0.13
+        # type: LoadBalancer
+        # loadBalancerIP: 10.69.0.13
+        # clusterIP:
+        # annotations:
+        #   metallb.universe.tf/allow-shared-ips: forgejo-10.69.0.13
         ports:
           http:
             enabled: true
-            port: 3000
+            # port: 3000
             protocol: TCP
-            targetPort: 3000
+            # targetPort: 3000
       ssh:
-        type: LoadBalancer
-        loadBalancerIP: 10.69.0.13
-        clusterIP:
-        annotations:
-          metallb.universe.tf/allow-shared-ips: forgejo-10.69.0.13
-        ports:
-          ssh:
-            enabled: true
-            port: 30022
-            protocol: TCP
-            targetPort: 30022
+        port: 30022
+        # type: LoadBalancer
+        # loadBalancerIP: 10.69.0.13
+        # clusterIP:
+        # annotations:
+        #   metallb.universe.tf/allow-shared-ips: forgejo-10.69.0.13
+        # ports:
+        #   ssh:
+        #     port: 30022
+        #     enabled: true
+        #     protocol: TCP
+        #     targetPort: 30022
