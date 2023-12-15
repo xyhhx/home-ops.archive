@@ -41,6 +41,7 @@ spec:
           ROOT_URL: "https://forgejo.ab.hor.rent"
           DOMAIN: "forgejo.ab.hor.rent"
           SSH_DOMAIN: "forgejo.ab.hor.rent"
+          SSH_PORT: 30022
         ui:
           THEMES: "forgejo-auto,forgejo-light,forgejo-dark,auto,gitea,arc-green,pitch-black"
           DEFAULT_THEME: "pitch-black"
@@ -93,3 +94,21 @@ spec:
     service:
       ssh:
         hostPort: 30022
+    ingress:
+      enabled: true
+      annotations:
+        cert-manager.io/cluster-issuer: "letsencrypt-prod"
+      tls:
+        - hosts:
+            - forgejo.ab.hor.rent
+          secretName: tls-forgejo-ingress-http
+      hosts:
+        - host: forgejo.ab.hor.rent
+          paths:
+            - path: /
+              pathType: Prefix
+              backend:
+                service:
+                  name: forgejo-http
+                  port:
+                    number: 3000
