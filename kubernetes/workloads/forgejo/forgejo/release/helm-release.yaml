@@ -92,4 +92,6 @@ spec:
       existingSecret: forgejo-signing-key
     service:
       ssh:
-        hostPort: 30022
+        type: LoadBalancer
+        loadBalancerIP: 10.69.0.13
+        clusterIP:
