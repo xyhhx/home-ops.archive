@@ -76,8 +76,8 @@ spec:
               key: password
     extraVolumes:
       - name: forgejo-themes
-        secret:
-          secretName: forgejo-themes
+        configMap:
+          name: forgejo-themes
     extraContainerVolumeMounts:
       - name: forgejo-themes
         readOnly: true
