@@ -99,6 +99,12 @@ spec:
         clusterIP:
         annotations:
           metallb.universe.tf/allow-shared-ips: forgejo
+        ports:
+          http:
+            enabled: true
+            port: 3000
+            protocol: TCP
+            targetPort: 3000
       ssh:
         type: LoadBalancer
         loadBalancerIP: 10.69.0.13
