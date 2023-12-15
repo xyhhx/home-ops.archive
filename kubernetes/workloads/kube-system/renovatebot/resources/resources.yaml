@@ -77,7 +77,7 @@ spec:
                   memory: "128Mi"
                   cpu: "250m"
                 limits:
-                  memory: "2Gi"
+                  memory: "512Mi"
                   cpu: "1"
               volumeMounts:
                 - name: config-volume
