@@ -42,6 +42,7 @@ spec:
           DOMAIN: "forgejo.ab.hor.rent"
           SSH_DOMAIN: "forgejo.ab.hor.rent"
           SSH_PORT: 30022
+          SSH_LISTEN_PORT: 22
         ui:
           THEMES: "forgejo-auto,forgejo-light,forgejo-dark,auto,gitea,arc-green,pitch-black"
           DEFAULT_THEME: "pitch-black"
@@ -92,8 +93,24 @@ spec:
       gpgHome: /data/git/.gnupg
       existingSecret: forgejo-signing-key
     service:
+      http:
+        type: LoadBalancer
+        loadBalancerIP: 10.69.0.13
+        clusterIP: ""
+        annotations:
+          metallb.universe.tf/allow-shared-ips: forgejo
       ssh:
-        hostPort: 30022
+        type: LoadBalancer
+        loadBalancerIP: 10.69.0.13
+        clusterIP: ""
+        annotations:
+          metallb.universe.tf/allow-shared-ips: forgejo
+        ports:
+          ssh:
+            enabled: true
+            port: 30022
+            protocol: TCP
+            targetPort: 30022
     # ingress:
     #   enabled: true
     #   annotations:
