@@ -22,7 +22,10 @@ spec:
       targetPath: "gitea.config.repository\\.signing.SIGNING_KEY"
   values:
     image:
+      registry: codeberg.org
+      repository: forgejo/forgejo
       tag: "1.21.1-0"
+      digest: sha256:77870d049cf7f066b70fbcb6460593deda6ab2792698d8ce6cafc16057be5192
     redis-cluster:
       enabled: false
     postgresql:
