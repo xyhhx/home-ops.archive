@@ -8,7 +8,7 @@ spec:
   interval: 30m
   url: ssh://git@github.com/xyhhx/home-ops
   ref:
-    branch: fix/forgejo-ssh-2
+    branch: main
   secretRef:
     name: home-ops-deploy-key
 ---
