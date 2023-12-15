@@ -36,6 +36,9 @@ spec:
           ROOT_URL: "https://forgejo.ab.hor.rent"
           DOMAIN: "forgejo.ab.hor.rent"
           SSH_DOMAIN: "forgejo.ab.hor.rent"
+        ui:
+          THEMES: "forgejo-auto,forgejo-light,forgejo-dark,auto,gitea,arc-green,pitch-black"
+          DEFAULT_THEME: "pitch-black"
         database:
           DB_TYPE: postgres
           HOST: postgresql-forgejo.forgejo.svc.cluster.local:5432
@@ -71,6 +74,14 @@ spec:
             secretKeyRef:
               name: postgres-secrets
               key: password
+    extraVolumes:
+      - name: forgejo-themes
+        secret:
+          secretName: forgejo-themes
+    extraContainerVolumeMounts:
+      - name: forgejo-themes
+        readOnly: true
+        mountPath: "/data/gitea/public/assets/css"
     signing:
       enabled: true
       gpgHome: /data/git/.gnupg
