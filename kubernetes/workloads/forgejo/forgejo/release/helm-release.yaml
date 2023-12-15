@@ -92,4 +92,5 @@ spec:
       existingSecret: forgejo-signing-key
     service:
       ssh:
-        hostPort: 30022
+        port: 30022
+    #     hostPort: 30022
