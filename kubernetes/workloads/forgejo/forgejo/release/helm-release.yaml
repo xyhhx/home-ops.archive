@@ -93,28 +93,5 @@ spec:
       gpgHome: /data/git/.gnupg
       existingSecret: forgejo-signing-key
     service:
-      http:
-        # type: LoadBalancer
-        # loadBalancerIP: 10.69.0.13
-        # clusterIP:
-        # annotations:
-        #   metallb.universe.tf/allow-shared-ips: forgejo-10.69.0.13
-        ports:
-          http:
-            enabled: true
-            # port: 3000
-            protocol: TCP
-            # targetPort: 3000
       ssh:
         port: 30022
-        # type: LoadBalancer
-        # loadBalancerIP: 10.69.0.13
-        # clusterIP:
-        # annotations:
-        #   metallb.universe.tf/allow-shared-ips: forgejo-10.69.0.13
-        # ports:
-        #   ssh:
-        #     port: 30022
-        #     enabled: true
-        #     protocol: TCP
-        #     targetPort: 30022
