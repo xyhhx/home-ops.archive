@@ -49,9 +49,12 @@ spec:
             - name: FORGEJO_INSTANCE_URL
               value: http://forgejo-http.forgejo.svc.cluster.local:3000
           resources:
-            limits:
+            requests:
               cpu: "250m"
-              memory: "64Mi"
+              memory: "256Mi"
+            limits:
+              cpu: "1"
+              memory: "512Mi"
           volumeMounts:
             - name: runner-data
               mountPath: /data

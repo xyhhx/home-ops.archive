@@ -21,8 +21,8 @@ spec:
         metallb.universe.tf/loadBalancerIPs: 10.69.0.10
     resources:
       requests:
-        memory: "64Mi"
-        cpu: "250m"
-      limits:
         memory: "128Mi"
-        cpu: "500m"
+        cpu: "100m"
+      limits:
+        memory: "256Mi"
+        cpu: "250m"
