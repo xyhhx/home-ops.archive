@@ -1,32 +1,3 @@
 {
-  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-  "customManagers": [
-    {
-      "customType": "regex",
-      "description": "Apply an explicit forgejo digest field match",
-      "fileMatch": ["helm-release\\.ya?ml"],
-      "matchStrings": [
-        "(?<depName>forgejo\\/forgejo)\\n(?<indentation>\\s+)tag: (?<currentValue>[^@].*?)\\n\\s+digest: (?<currentDigest>sha256:[a-f0-9]+)"
-      ],
-      "datasourceTemplate": "docker",
-      "packageNameTemplate": "codeberg.org/{{depName}}",
-      "autoReplaceStringTemplate": "{{depName}}\n{{indentation}}tag: {{newValue}}\n{{indentation}}digest: {{#if newDigest}}{{{newDigest}}}{{else}}{{{currentDigest}}}{{/if}}"
-    }
-  ],
-
-  "kubernetes": {
-    "fileMatch": [
-      "^kubernetes/.*resources.yaml",
-      "^kubernetes/.*config.yaml",
-      "^kubernetes/.*kustomization.yaml",
-      "^kubernetes/.*helm-release.yaml"
-    ]
-  },
-  "packageRules": [
-    {
-      "matchUpdateTypes": ["minor", "patch"],
-      "matchCurrentVersion": "!/^0/",
-      "automerge": true
-    }
-  ]
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json"
 }
