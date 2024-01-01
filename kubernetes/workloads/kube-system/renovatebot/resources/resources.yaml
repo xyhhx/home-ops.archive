@@ -8,10 +8,8 @@ data:
   config.json: |-
     {
       "$schema": "https://docs.renovatebot.com/renovate-schema.json",
-      "username": "renovatebot",
-      "gitAuthor": "Renovate Bot <renovatebot@forgejo.ab.hor.rent>",
-      "autodiscover": true,
-      "optimizeForDisabled": true,
+      "username": "frenovate[bot]",
+      "gitAuthor": "frenovate[bot] <146583444+frenovate[bot]@users.noreply.github.com>",
       "kubernetes": {
         "fileMatch": [
           "^kubernetes/.*resources.yaml",
@@ -26,7 +24,7 @@ data:
           "matchCurrentVersion": "!/^0/",
           "automerge": true
         }
-      ],
+      ]
       "customManagers": [
         {
           "customType": "regex",
@@ -55,6 +53,23 @@ spec:
     spec:
       template:
         spec:
+          initContainers:
+            - name: secrets-init
+              image: ghcr.io/xyhhx/init-gh-token:main
+              env:
+                - name: APP_ID
+                  valueFrom:
+                    secretKeyRef:
+                      name: renovate-env
+                      key: RENOVATE_GH_APP_ID
+                - name: PRIVATE_KEY
+                  valueFrom:
+                    secretKeyRef:
+                      name: renovate-env
+                      key: RENOVATE_GH_APP_PRIVATE_KEY
+              volumeMounts:
+                - mountPath: /mnt
+                  name: token-vol
           containers:
             - name: renovate
               image: renovate/renovate:37.99.1
@@ -78,10 +93,15 @@ spec:
                   mountPath: /opt/renovate/
                 - name: work-volume
                   mountPath: /tmp/renovate/
+                - name: token-vol
+                  mountPath: /mnt
+                  readOnly: true
           restartPolicy: Never
           volumes:
             - name: config-volume
               configMap:
                 name: renovate-config
             - name: work-volume
+              emptyDir: {}
+            - name: token-vol
               emptyDir: {}
