@@ -5,7 +5,7 @@ metadata:
   name: nfs-subdir-external-provisioner-release-truenas
   namespace: flux-system
 spec:
-  path: ./kubernetes/workloads/nfs-provisioner/nfs-subdir-external-provisioner/release
+  path: ./kubernetes/workloads/nfs-provisioner/nfs-subdir-external-provisioner-truenas/release
   prune: true
   sourceRef:
     kind: GitRepository

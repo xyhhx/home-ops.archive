@@ -8,7 +8,7 @@ spec:
   interval: 5m
   chart:
     spec:
-      chart: nfs-subdir-external-provisioner-truenas
+      chart: nfs-subdir-external-provisioner
       version: "4.0.18"
       sourceRef:
         kind: HelmRepository
