@@ -6,7 +6,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  url: ssh://git@forgejo.ab.hor.rent:30022/xyhhx/home-ops
+  url: ssh://git@github.com/xyhhx/home-ops
   ref:
     branch: main
   secretRef:
@@ -38,7 +38,7 @@ metadata:
   namespace: flux-system
 spec:
   interval: 30m
-  url: ssh://git@forgejo.ab.hor.rent:30022/xyhhx/home-ops-secrets
+  url: ssh://git@github.com/xyhhx/home-ops-secrets
   ref:
     branch: main
   secretRef:
