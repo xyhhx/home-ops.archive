@@ -32,6 +32,7 @@ spec:
       enabled: false
     postgresql-ha:
       enabled: false
+    replicaCount: 0
     gitea:
       config:
         APP_NAME: "Abhorrent forgejo"
