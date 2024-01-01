@@ -68,7 +68,7 @@ spec:
       volumes:
         - name: nfs-vol
           persistentVolumeClaim:
-            claimName: media-nfs
+            claimName: media-nfs-truenas
         - name: jiva-vol
           persistentVolumeClaim:
             claimName: calibre-web-config

@@ -17,8 +17,8 @@ spec:
       interval: 1m
   values:
     nfs:
-      server: ${NFS_ADDRESS}
-      path: ${NFS_EXPORT_PATH}
+      server: ${TRUENAS_NFS_ADDRESS}
+      path: ${TRUENAS_NFS_EXPORT_PATH}
       mountOptions:
         - nolock
     storageClass:

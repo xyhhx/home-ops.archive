@@ -5,6 +5,8 @@ metadata:
   namespace: flux-system
   name: global-vars
 data:
-  NFS_ADDRESS: 10.69.69.5
-  NFS_EXPORT_PATH: /mnt/shinji/k8s-data-public
+  NFS_ADDRESS: 10.69.69.4
+  NFS_EXPORT_PATH: /export/k8s-data-public
+  TRUENAS_NFS_ADDRESS: 10.69.69.5
+  TRUENAS_NFS_EXPORT_PATH: /mnt/shinji/k8s-data-public
   BASE_DOMAIN_NAME: "ab.hor.rent"

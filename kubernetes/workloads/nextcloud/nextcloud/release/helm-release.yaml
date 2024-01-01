@@ -32,7 +32,7 @@ spec:
       extraVolumes:
         - name: media-nfs-vol
           persistentVolumeClaim:
-            claimName: nextcloud-media-nfs
+            claimName: nextcloud-media-nfs-truenas
       extraVolumeMounts:
         - name: media-nfs-vol
           mountPath: "/mnt/media-nfs"
@@ -61,7 +61,7 @@ spec:
       enabled: true
       nextcloudData:
         enabled: true
-        existingClaim: nextcloud-data-nfs
+        existingClaim: nextcloud-data-nfs-truenas
     startupProbe:
       enabled: true
       periodSeconds: 30

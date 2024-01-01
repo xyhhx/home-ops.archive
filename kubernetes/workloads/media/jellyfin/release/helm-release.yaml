@@ -32,7 +32,7 @@ spec:
         size: 8Gi
       media:
         enabled: true
-        existingClaim: media-nfs
+        existingClaim: media-nfs-truenas
     resources:
       limits:
         cpu: "1"

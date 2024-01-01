@@ -1,0 +1,31 @@
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: media-nfs-truenas
+spec:
+  storageClassName: media-nfs-truenas
+  capacity:
+    storage: 1Ti
+  accessModes:
+    - ReadWriteMany
+  persistentVolumeReclaimPolicy: Retain
+  nfs:
+    server: "${TRUENAS_NFS_ADDRESS}"
+    path: /mnt/shinji/media
+  mountOptions:
+    - nolock
+    - async
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: media-nfs-truenas
+  namespace: media
+spec:
+  accessModes:
+    - ReadWriteMany
+  storageClassName: media-nfs-truenas
+  resources:
+    requests:
+      storage: 1Ti
