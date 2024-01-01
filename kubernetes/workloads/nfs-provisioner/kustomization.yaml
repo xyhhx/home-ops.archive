@@ -4,3 +4,4 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - nfs-subdir-external-provisioner/ks.yaml
+  - nfs-subdir-external-provisioner-truenas/ks.yaml
