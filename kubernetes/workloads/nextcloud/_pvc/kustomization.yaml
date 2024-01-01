@@ -2,7 +2,5 @@
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 resources:
-  # - nextcloud-data-nfs.yaml
-  # - nextcloud-media-nfs.yaml
   - nextcloud-data-nfs-truenas.yaml
   - nextcloud-media-nfs-truenas.yaml
