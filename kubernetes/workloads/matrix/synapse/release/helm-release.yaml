@@ -29,7 +29,7 @@ spec:
           url: https://syncv3.ab.hor.rent
     extraConfig:
       limit_remote_rooms:
-        enabled: true
+        enabled: false
         complexity: 2
         complexity_error: "Room is too annoying."
       max_avatar_size: 25M
