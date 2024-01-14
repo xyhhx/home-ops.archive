@@ -36,5 +36,7 @@ spec:
           paths:
             - path: "/"
               pathType: Prefix
+    postgresql:
+      host: postgresql-authentik.authentik.svc.cluster.local
     redis:
       enabled: true
