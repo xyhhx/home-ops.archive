@@ -30,19 +30,5 @@ spec:
         enabled: true
       postgresql:
         host: postgresql-authentik.authentik.svc.cluster.local
-    ingress:
-      ingressClassName: traefik
-      enabled: true
-      annotations:
-        cert-manager.io/cluster-issuer: "letsencrypt-prod"
-      tls:
-        - hosts:
-            - auth.ab.hor.rent
-          secretName: tls-authentik-ingress-http
-      hosts:
-        - host: auth.ab.hor.rent
-          paths:
-            - path: "/"
-              pathType: Prefix
     redis:
       enabled: true
