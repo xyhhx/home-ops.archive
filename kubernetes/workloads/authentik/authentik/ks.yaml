@@ -29,6 +29,7 @@ spec:
   prune: true
   dependsOn:
     - name: authentik-secrets
+    - name: authentik-postgres-secrets
     - name: authentik-postgresql-release
   sourceRef:
     kind: GitRepository
