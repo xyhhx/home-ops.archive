@@ -1,0 +1,39 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: authentik-secrets
+  namespace: flux-system
+spec:
+  path: ./namespaces/authentik
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: workload-secrets
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: authentik-release
+  namespace: flux-system
+spec:
+  path: ./kubernetes/workloads/authentik/authentik/release
+  prune: true
+  dependsOn:
+    - name: authentik-secrets
+    - name: authentik-postgresql-release
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
