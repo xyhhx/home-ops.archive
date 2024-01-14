@@ -9,10 +9,10 @@ spec:
   chart:
     spec:
       chart: authentik
-      version: "16.1.4"
+      version: "2023.10.6"
       sourceRef:
         kind: HelmRepository
-        name: bitnami
+        name: authentik
         namespace: flux-system
       interval: 1m
   valuesFrom:
