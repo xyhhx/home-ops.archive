@@ -9,7 +9,7 @@ from time import sleep
 
 load_dotenv()
 talosconfig = Path(getenv('TALOSCONFIG'))
-talos_secrets = Path('talos/secrets.yaml')
+talos_secrets = Path('secrets/talos/secrets.yaml')
 
 parser = argparse.ArgumentParser()
 parser.add_argument('action')
@@ -50,25 +50,6 @@ def check_secrets_exist():
         exit(0)
 
 
-def gen_talos_conf(ipaddr):
-
-    if talosconfig.is_file():
-        print('%a exists, not generating a new one' % talosconfig)
-        return
-
-    command = "talosctl gen config %s https://%s:6443 \
---with-docs=false \
---with-examples=false \
---with-secrets talos/secrets.yaml \
---config-patch @generated/all.yaml \
---config-patch-control-plane @generated/controlplane.yaml \
---config-patch-control-plane @generated/cilium.yaml \
---config-patch-worker @generated/worker.yaml \
---output %s" % (
-        getenv('TALOS_CLUSTER_NAME'), ipaddr, talosconfig.parent)
-    run_command(command)
-
-
 def apply_config(ipaddr, conf_file):
     command = "talosctl apply-config --insecure --nodes %s --file %s/%s.yaml" % (
         ipaddr, talosconfig.parent, conf_file)
@@ -100,20 +81,7 @@ def main():
         show_node_ips(args.type)
         exit()
 
-    # config_generated = False
     data = get_leases()
-
-    if args.action == 'gen':
-        # if config_generated == False:
-        gen_talos_conf(data['control_plane'][0])
-        # config_generated = True
-        run_command('talosctl --talosconfig %s/talosconfig config endpoint %s' %
-                    (talosconfig.parent, ' '.join([ip for ip in data['control_plane']])))
-        run_command('talosctl --talosconfig %s/talosconfig config node %s' %
-                    (talosconfig.parent, ' '.join([ip for ip in data['control_plane']])))
-        print('Your configs have been generated, and are available in %s/' %
-              talosconfig.parent)
-        exit()
 
     if args.action == 'apply':
         for ip in data['control_plane']:

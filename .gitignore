@@ -13,5 +13,4 @@
 .talosconf
 kubeconfig
 __pycache__
-talos/secrets.yaml
 generated
