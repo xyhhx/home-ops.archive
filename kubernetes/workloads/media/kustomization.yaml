@@ -4,6 +4,6 @@ kind: Kustomization
 resources:
   - namespace.yaml
   - _pvc
-  - calibre/ks.yaml
+  # - calibre/ks.yaml
   - jellyfin/ks.yaml
-  - slskd/ks.yaml
+  # - slskd/ks.yaml
