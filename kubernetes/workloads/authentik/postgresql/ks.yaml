@@ -1,0 +1,39 @@
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: authentik-postgres-secrets
+  namespace: flux-system
+spec:
+  path: ./namespaces/authentik
+  prune: true
+  sourceRef:
+    kind: GitRepository
+    name: workload-secrets
+  decryption:
+    provider: sops
+    secretRef:
+      name: sops-age
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m
+---
+apiVersion: kustomize.toolkit.fluxcd.io/v1
+kind: Kustomization
+metadata:
+  name: authentik-postgresql-release
+  namespace: flux-system
+spec:
+  path: ./kubernetes/workloads/authentik/postgresql/release
+  prune: true
+  dependsOn:
+    - name: openebs-jiva-config
+    - name: authentik-postgres-secrets
+  sourceRef:
+    kind: GitRepository
+    name: flux-system
+  wait: true
+  interval: 30m
+  retryInterval: 1m
+  timeout: 5m

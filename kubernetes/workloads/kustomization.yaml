@@ -9,11 +9,12 @@ resources:
   - cert-manager
   - flux-system
   - kube-system
-  - ldap
-  - keycloak
-  - forgejo
-  - nextcloud
-  - collabora
-  - media
-  - matrix
+  - authentik
+  # - ldap
+  # - keycloak
+  # - forgejo
+  # - nextcloud
+  # - collabora
+  # - media
+  # - matrix
   - default
