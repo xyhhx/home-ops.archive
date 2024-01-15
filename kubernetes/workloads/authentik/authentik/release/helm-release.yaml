@@ -27,7 +27,7 @@ spec:
   values:
     authentik:
       error_reporting:
-        enabled: true
+        enabled: false
       postgresql:
         host: postgresql-authentik.authentik.svc.cluster.local
     redis:
