@@ -71,11 +71,13 @@ spec:
       admin:
         existingSecret: forgejo-admin-secret
       oauth:
-        - name: "Keycloak"
+        - name: "Authentik"
           provider: "openidConnect"
           existingSecret: forgejo-oauth-secret
-          autoDiscoverUrl: "https://auth.ab.hor.rent/realms/homelab/.well-known/openid-configuration/"
+          autoDiscoverUrl: "https://auth.ab.hor.rent/application/o/forgejo/.well-known/openid-configuration"
           skipLocal2fa: true
+          scopes: "email profile"
+          iconUrl: "https://raw.githubusercontent.com/goauthentik/authentik/master/web/icons/icon.png"
       additionalConfigFromEnvs:
         - name: GITEA__DATABASE__PASSWD
           valueFrom:
