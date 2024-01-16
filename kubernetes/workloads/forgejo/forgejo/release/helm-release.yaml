@@ -63,6 +63,7 @@ spec:
           ENABLE_AUTO_REGISTRATION: true
         repository:
           DEFAULT_REPO_UNITS: repo.code,repo.releases,repo.issues,repo.pulls,repo.wiki,repo.projects,repo.packages,repo.actions
+          ENABLE_PUSH_CREATE_USER: true
         repository.signing:
           INITIAL_COMMIT: always
           CRUD_ACTIONS: pubkey, twofa, parentsigned
